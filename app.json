@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "connextPrototype3",
+    "scheme": "connextPrototype3",
     "slug": "connextPrototype3",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,7 +24,8 @@
       "edgeToEdgeEnabled": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     }
   }
 }

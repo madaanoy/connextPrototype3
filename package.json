@@ -1,7 +1,7 @@
 {
   "name": "connextprototype3",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -10,12 +10,24 @@
   },
   "dependencies": {
     "expo": "~53.0.20",
+    "expo-document-picker": "~13.1.6",
+    "expo-font": "^13.3.2",
+    "expo-router": "^5.1.4",
     "expo-status-bar": "~2.2.3",
+    "lucide-react-native": "^0.536.0",
+    "nativewind": "^4.1.23",
+    "prettier-plugin-tailwindcss": "^0.5.14",
     "react": "19.0.0",
-    "react-native": "0.79.5"
+    "react-native": "0.79.5",
+    "react-native-reanimated": "~3.17.4",
+    "react-native-safe-area-context": "^5.4.0",
+    "react-native-svg": "^15.12.1",
+    "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@types/react": "~19.0.10",
+    "typescript": "~5.8.3"
   },
   "private": true
 }
