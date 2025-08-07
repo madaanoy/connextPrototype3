@@ -5,26 +5,51 @@ export default function _layout() {
       <Tabs>
          
          <Tabs.Screen name='employerHome' 
-         options={{title: 'Home', 
-         headerShown: false}}>
+         options={{
+         title: 'Home', 
+         headerShown: false,
+         tabBarLabelStyle: {
+            fontSize: 12,
+            fontFamily: 'Lexend-Regular',
+            marginTop: 4,
+         },
+         }}>
 
          </Tabs.Screen>
 
          <Tabs.Screen name='applicantsScreen' 
-         options={{title: 'Applicants', 
-         headerShown: false}}>
+         options={{
+         title: 'Applicants', 
+         headerShown: false, 
+         tabBarLabelStyle: {
+            fontSize: 12,
+            fontFamily: 'Lexend-Regular',
+            marginTop: 4,
+         }}}>
 
          </Tabs.Screen>
 
          <Tabs.Screen name='messagesScreen' 
          options={{title: 'Messages', 
-         headerShown: false}}>
+         headerShown: false,
+         tabBarLabelStyle: {
+            fontSize: 12,
+            fontFamily: 'Lexend-Regular',
+            marginTop: 4,
+            }
+         }}>
 
          </Tabs.Screen>
 
          <Tabs.Screen name='profileScreen' 
          options={{title: 'Profile', 
-         headerShown: false}}>
+         headerShown: false,
+         tabBarLabelStyle: {
+            fontSize: 12,
+            fontFamily: 'Lexend-Regular',
+            marginTop: 4,
+         }
+         }}>
 
          </Tabs.Screen>
 

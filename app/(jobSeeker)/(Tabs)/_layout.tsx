@@ -1,39 +1,89 @@
 import { Tabs } from 'expo-router'
-import { Home } from 'lucide-react-native';
+import { Home, Inbox, MessageCircle, UserRound } from 'lucide-react-native';
 
 export default function _layout() {
-  return (
-   <Tabs>
-         <Tabs.Screen name='jobSeekerHome' 
+   return (
+      <Tabs>
+
+         <Tabs.Screen name='jobSeekerHome'
             options={{
-               title:'Home', 
-               headerShown: false, 
-               tabBarIcon: () => (
-                  <Home size={18}></Home>
-               )}}>
+               title: 'Home',
+               tabBarLabelStyle: {
+                  fontSize: 12,
+                  fontFamily: 'Lexend-Regular',
+                  marginTop: 2,
+               },
+               headerShown: false,
+               tabBarActiveTintColor: '#6C63FF',
+               tabBarInactiveTintColor: '#999999',
+               tabBarIcon: ({ color, focused }) =>
+               (
+                  <Home size={18}
+                     color={focused ? '#6C63FF' : '#999'}>
+                  </Home>
+               )
+            }}>
          </Tabs.Screen>
 
-         <Tabs.Screen name='prospectsScreen' 
-         options={{
-            title: 'Prospects', 
-            headerShown: false, 
-            tabBarIcon: () => (
-               <Home size={18}></Home>
-            )}}>
+         <Tabs.Screen name='prospectsScreen'
+            options={{
+               title: 'Prospects',
+               tabBarLabelStyle: {
+                  fontSize: 12,
+                  fontFamily: 'Lexend-Regular',
+                  marginTop: 2,
+               },
+               headerShown: false,
+               tabBarActiveTintColor: '#6C63FF',
+               tabBarInactiveTintColor: '#999999',
+               tabBarIcon: ({ color, focused }) =>
+               (
+                  <Inbox size={18}
+                     color={focused ? '#6C63FF' : '#999'}></Inbox>
+               )
+            }}>
          </Tabs.Screen>
 
-         <Tabs.Screen name='messagesScreen' 
-         options={{title: 'Messages', 
-         headerShown: false}}>
-   
+         <Tabs.Screen name='messagesScreen'
+            options={{
+               title: 'Messages',
+               headerShown: false,
+               tabBarLabelStyle: {
+                  fontSize: 12,
+                  fontFamily: 'Lexend-Regular',
+                  marginTop: 2,
+               },
+               tabBarActiveTintColor: '#6C63FF',
+               tabBarInactiveTintColor: '#999999',
+               tabBarIcon: ({ color, focused }) =>
+                  <MessageCircle
+                     size={18}
+                     color={focused ? '#6C63FF' : '#999'}>
+                  </MessageCircle>
+            }}>
+
          </Tabs.Screen>
 
-         <Tabs.Screen name='profileScreen' 
-         options={{title: 'Profile', 
-         headerShown: false}}>
-            
+         <Tabs.Screen name='profileScreen'
+            options={{
+               title: 'Profile',
+               headerShown: false,
+               tabBarLabelStyle: {
+                  fontSize: 12,
+                  fontFamily: 'Lexend-Regular',
+                  marginTop: 2,
+               },
+               tabBarActiveTintColor: '#6C63FF',
+               tabBarInactiveTintColor: '#999999',
+               tabBarIcon: ({ color, focused }) =>
+                  <UserRound
+                     size={20}
+                     color={focused ? '#6C63FF' : '#999'}>
+                  </UserRound>
+            }}>
+
          </Tabs.Screen>
 
-   </Tabs>
-  )
+      </Tabs>
+   )
 }

@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Image, TextInput, Pressable } from 'react-native';
 import React, { useState } from 'react';
-import appLogo from '../assets/images/app_logo.png'
+import appLogo from '../../assets/images/app_logo.png'
 import { Link } from 'expo-router';
 import { Lock, Mail } from 'lucide-react-native';
 

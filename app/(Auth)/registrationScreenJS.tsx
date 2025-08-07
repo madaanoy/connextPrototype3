@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Image, TextInput } from 'react-native';
 import React from 'react';
-import justLogo from '../assets/images/justLogo.png'
+import justLogo from '../../assets/images/justLogo.png'
 import { Link } from 'expo-router';
 import { Mail, Lock } from 'lucide-react-native';
 
