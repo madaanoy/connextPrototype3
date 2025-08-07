@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
 import React from 'react';
-import appLogo from '../../assets/images/app_logo.png';
+import appLogo from '../assets/images/app_logo.png';
 import { Link } from 'expo-router';
 
 export default function ConfirmRegistration() {

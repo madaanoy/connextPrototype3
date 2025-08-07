@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, TextInput, Pressable } from 'react-native';
 import React, { useState } from 'react';
-import justLogo from '../assets/images/justLogo.png';
+import justLogo from '../assets/images/justLogo.png'
 import { Link } from 'expo-router';
 import * as DocumentPicker from 'expo-document-picker';
 import { MapPin, Mail, Lock, } from 'lucide-react-native'
@@ -130,10 +130,10 @@ export default function RegistrationScreenEmployer() {
 
           {/* Proceed Button */}
           <Link
-            href="/Employer/confirmRegistration"
+            href="confirmRegistration"
             className="bg-[#6C63FF] px-6 py-4 rounded-xl w-full"
           >
-            <Text className="text-white font-bold text-center">Proceed</Text>
+            <Text className="text-white font-bold text-center"> Proceed </Text>
           </Link>
         </View>
       </View>

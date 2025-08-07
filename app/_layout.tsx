@@ -22,23 +22,10 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack initialRouteName="industryCategory">
+    <Stack initialRouteName="(jobSeeker)" screenOptions={{ headerShown: false }}>
 
-      <Stack.Screen name="onboardingScreen1" options={{ title: 'Introduction', headerShown: false }} />
-      <Stack.Screen name="onboardingScreen2" options={{ title: 'Welcome', headerShown: false }} />
-      <Stack.Screen name="accountType" options={{ title: 'Who are you?', headerShown: false }} />
-
-      <Stack.Screen name="registrationScreenJS" options={{ title: 'Job Seeker Registration' }} />
-      <Stack.Screen name="registrationScreenEmployer" options={{ title: 'Employer Registration',}} />
-
-      <Stack.Screen name="loginScreen" options={{ title: 'Login', headerShown: false }} />
-      <Stack.Screen name="forgotPassword"></Stack.Screen>
-
-      <Stack.Screen name="jobSeeker/jobSeekerHome"></Stack.Screen>
-      <Stack.Screen name="Employer/employerHome"></Stack.Screen>
-      <Stack.Screen name="Employer/confirmRegistration" options={{ title: 'Confirm Registration' }}></Stack.Screen>
-      <Stack.Screen name="termsAndConditions"></Stack.Screen>
-      <Stack.Screen name="industryCategory" options={{title: 'Choose your industry'}}></Stack.Screen>
+      <Stack.Screen name='(Employer)' options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name='(jobSeeker)' options={{ headerShown: false }}></Stack.Screen>
 
     </Stack>
   );

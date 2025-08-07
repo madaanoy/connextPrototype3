@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Image, TextInput, Pressable } from 'react-native';
 import React, { useState } from 'react';
-import appLogo from '../assets/images/app_logo.png';
+import appLogo from '../assets/images/app_logo.png'
 import { Link } from 'expo-router';
 import { Lock, Mail } from 'lucide-react-native';
 
@@ -80,7 +80,7 @@ export default function LoginScreen() {
         {/* Login Buttons */}
         <View className="space-y-4 mt-4">
           <Link
-            href="/jobSeeker/jobSeekerHome"
+            href="/jobSeekerHome"
             className="bg-[#6C63FF] px-6 py-3 rounded-lg items-center justify-center"
           >
             <Text className="text-white font-bold text-center">Login as Job Seeker</Text>
@@ -95,7 +95,7 @@ export default function LoginScreen() {
           </View>
 
           <Link
-            href="/Employer/employerHome"
+            href="/employerHome"
             className="bg-[#1572DB] px-6 py-3 rounded-lg items-center justify-center"
           >
             <Text className="text-white font-bold text-center">Login as Employer</Text>

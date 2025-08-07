@@ -1,11 +1,12 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
+import { Link } from 'expo-router'
 
 export default function IndustryCategory() {
   const industries = [
     'Retail', 'Customer Service', 'Hospitality', 'Food & Beverage',
     'Warehouse & Logistics', 'Call Center', 'Skilled Labor', 'Office Work',
-    'Sales & Marketing', 'Transportation', 'Cleaning & Maintenance'
+    'Sales & Marketing', 'Transportation', 'Cleaning & Maintenance',
   ];
 
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
@@ -27,7 +28,7 @@ export default function IndustryCategory() {
 
       <View className="border-b border-gray-300 w-full my-6" />
 
-      <View className="flex-row flex-wrap justify-center gap-2">
+      <View className="items-center justify-center flex-row flex-wrap gap-4">
         {industries.map((industry, index) => {
           const isSelected = selectedIndustries.includes(industry);
           return (
@@ -39,8 +40,8 @@ export default function IndustryCategory() {
               }`}
             >
               <Text
-                className={`text-sm ${
-                  isSelected ? 'text-white font-semibold' : 'text-black'
+                className={`text-[14px] ${
+                  isSelected ? 'text-white font-semibold' : '#1A1A1A'
                 }`}
               >
                 {industry}
@@ -50,9 +51,10 @@ export default function IndustryCategory() {
         })}
       </View>
 
-      <Pressable className="bg-[#6C63FF] px-6 py-4 rounded-xl mt-12 mx-auto">
-        <Text className="text-white font-bold text-center">Proceed</Text>
+      <Pressable className="bg-[#6C63FF] px-10 py-4 rounded-full mt-12 mx-auto">
+        <Link href='loginScreen'> <Text className="text-white font-bold text-center">Proceed</Text> </Link>
       </Pressable>
+
     </View>
   );
 }
