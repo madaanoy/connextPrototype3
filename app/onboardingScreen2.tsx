@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
-import { Link } from 'expo-router';
-import justLogo from '../assets/images/justLogo.png';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import justLogo from '../assets/images/justLogo.png';
+import ProceedButton from './components/ProceedButton';
 
 export default function OnboardingScreen2() {
   return (
@@ -58,12 +59,9 @@ export default function OnboardingScreen2() {
       </View>
 
       {/* Proceed Button */}
-      <Link
-        href="/accountType"
-        className="bg-[#6C63FF] px-6 py-4 rounded-xl mt-auto mb-4"
-      style={{width: 150, height: 50}}>
-        <Text className="text-white font-bold text-center text-lg">Start</Text>
-      </Link>
+        <ProceedButton
+        label="Let's get started!"
+        href="/accountType"/>
     </SafeAreaView>
   );
 }

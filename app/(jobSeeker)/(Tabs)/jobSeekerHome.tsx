@@ -2,14 +2,13 @@ import React from 'react';
 import { StyleSheet, Image, View, Text } from 'react-native';
 import { Bell } from 'lucide-react-native';
 
-import JobPostingCard from '../../Components/JobPostingCard'
-
+import JobPostingCard from '../../components/JobPostingCard'
 import justLogo from '../../../assets/images/justLogo.png';
 
 export default function JobSeekerHome() {
   return (
-
     <View className="flex-1 bg-white">
+
       <View className="pt-10">
         <View className="flex-row justify-between items-center mr-10">
           <Image
@@ -39,13 +38,5 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     width: 50,
     height: 50,
-  },
-  card: {
-    margin: 16,
-    borderRadius: 8,
-  },
-  companyName: {
-    fontSize: 18,
-    marginTop: 4
   }
 });

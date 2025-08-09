@@ -1,26 +1,32 @@
 import { StyleSheet, View, Text, Image, TextInput } from 'react-native';
 import React from 'react';
-import justLogo from '../../assets/images/justLogo.png'
+
 import { Link } from 'expo-router';
 import { Mail, Lock } from 'lucide-react-native';
 
+import justLogo from '../../assets/images/justLogo.png';
+import ProceedButton from '../components/ProceedButton';
+
 export default function RegistrationScreenJS() {
   return (
-    <View className="flex-1 bg-white">
-      <View className="items-center justify-center mt-10 px-10">
+    <View className="flex-1 bg-white pt-10">
+
+      <View className="items-center justify-center mt-10 py-5 px-10">
         {/* Header with logo and title */}
-        <View className="flex-row items-center w-full max-w-md">
+        <View className="flex-row items-center w-full pt-10 max-w-md">
           <Image source={justLogo} className="w-20 h-20" resizeMode="contain" />
           <View className="ml-1 flex-1">
             <Text style={style.titleText}>Create an account</Text>
             <Text style={style.subHeaderText} className="ml-1">
               Find your jobs with one swipe
             </Text>
+
           </View>
+
         </View>
 
         {/* Form fields */}
-        <View className="w-full max-w-md mt-8">
+        <View className="w-full max-w-md py-3 mt-8">
 
           {/* Email */}
           <View className="mb-4">
@@ -29,6 +35,7 @@ export default function RegistrationScreenJS() {
               <Text style={style.fieldHeader} className="ml-2">Email</Text>
             </View>
             <TextInput
+              style={style.textInput}
               className="border border-gray-300 rounded-md p-3"
               placeholder="johndoe@gmail.com"
               keyboardType="email-address"
@@ -40,6 +47,7 @@ export default function RegistrationScreenJS() {
           <View className="mb-4">
             <Text style={style.fieldHeader} className="mb-2">First Name</Text>
             <TextInput
+              style={style.textInput}
               className="border border-gray-300 rounded-md p-3"
               placeholder="John"
             />
@@ -49,6 +57,7 @@ export default function RegistrationScreenJS() {
           <View className="mb-4">
             <Text style={style.fieldHeader} className="mb-2">Middle Initial (If applicable)</Text>
             <TextInput
+              style={style.textInput}
               className="border border-gray-300 rounded-md p-3"
               placeholder="i.e M."
               maxLength={2}
@@ -59,6 +68,7 @@ export default function RegistrationScreenJS() {
           <View className="mb-4">
             <Text style={style.fieldHeader} className="mb-2">Last Name</Text>
             <TextInput
+              style={style.textInput}
               className="border border-gray-300 rounded-md p-3"
               placeholder="Doe"
             />
@@ -71,6 +81,7 @@ export default function RegistrationScreenJS() {
               <Text style={style.fieldHeader} className="ml-2">Password</Text>
             </View>
             <TextInput
+              style={style.textInput}
               className="border border-gray-300 rounded-md p-3"
               placeholder="Create a password"
               secureTextEntry
@@ -84,6 +95,7 @@ export default function RegistrationScreenJS() {
               <Text style={style.fieldHeader} className="ml-2">Confirm Password</Text>
             </View>
             <TextInput
+              style={style.textInput}
               className="border border-gray-300 rounded-md p-3"
               placeholder="Confirm your password"
               secureTextEntry
@@ -101,6 +113,7 @@ export default function RegistrationScreenJS() {
         </View>
 
       </View>
+
     </View>
   );
 }

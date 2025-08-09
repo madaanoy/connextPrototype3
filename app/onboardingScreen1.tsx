@@ -1,8 +1,9 @@
 import { StyleSheet, View, Text, Image } from 'react-native'
-import { Link } from 'expo-router'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+
 import appLogo from "../assets/images/app_logo.png"
+import ProceedButton from './components/ProceedButton'
 
 export default function onboardingScreen1() {
   return (
@@ -23,14 +24,9 @@ export default function onboardingScreen1() {
           that struggle with taking the first step into the professional world.
         </Text>
 
-        <Link
-          href="/onboardingScreen2"
-          className="bg-[#6C63FF] px-6 py-4 rounded-xl"
-        >
-          <Text className="text-white font-bold text-center">
-            Let's get started!
-          </Text>
-        </Link>
+        <ProceedButton
+        label="Let's get started!"
+        href="/onboardingScreen2"/>
 
       </View>
 

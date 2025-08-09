@@ -1,9 +1,12 @@
 import { StyleSheet, Text, View, Image, TextInput, Pressable } from 'react-native';
 import React, { useState } from 'react';
-import justLogo from '../../assets/images/justLogo.png'
+
 import { Link } from 'expo-router';
 import * as DocumentPicker from 'expo-document-picker';
 import { MapPin, Mail, Lock, } from 'lucide-react-native'
+
+import justLogo from '../../assets/images/justLogo.png';
+import ProceedButton from '../components/ProceedButton';
 
 export default function RegistrationScreenEmployer() {
   const [documentName, setDocumentName] = useState<string | null>(null);
@@ -23,17 +26,22 @@ export default function RegistrationScreenEmployer() {
   };
 
   return (
-    <View className="flex-1 bg-white">
-      <View className="items-center justify-center mt-10 px-10">
+
+    <View className="flex-1 bg-white py-10">
+
+      <View className="items-center justify-center pt-6 mt-10 px-10">
         {/* Header Section */}
         <View className="flex-row items-center w-full max-w-md">
+
           <Image source={justLogo} className="w-20 h-20" resizeMode="contain" />
           <View className="ml-4 flex-1">
             <Text style={style.titleText}>Create an account</Text>
             <Text style={style.subHeaderText}>
               Find your employees with one swipe
             </Text>
+
           </View>
+
         </View>
 
         {/* Form Fields */}
@@ -58,6 +66,7 @@ export default function RegistrationScreenEmployer() {
 
           {/* Company Name */}
           <View className="mb-4">
+            
             <Text style={style.fieldHeader}>Company Name</Text>
             <TextInput
               style={style.textInput}
@@ -68,6 +77,7 @@ export default function RegistrationScreenEmployer() {
 
           {/* Company Documents */}
           <View className="mb-4">
+
             <Text style={style.fieldHeader}>
               Company Documents (Required for verification)
             </Text>
@@ -79,6 +89,7 @@ export default function RegistrationScreenEmployer() {
                 {documentName ? documentName : 'Upload document'}
               </Text>
             </Pressable>
+
           </View>
 
           {/* Company Address */}
@@ -92,7 +103,7 @@ export default function RegistrationScreenEmployer() {
             <TextInput
               style={style.textInput}
               className="border border-gray-300 rounded-md p-3"
-              placeholder="Ateneo Ave, Naga City, 4400 Camarines Sur"
+              placeholder="Ateneo Ave, Naga City, 4400 Camarines Sur"  
             />
           </View>
 
@@ -110,6 +121,7 @@ export default function RegistrationScreenEmployer() {
               placeholder="Create a password"
               secureTextEntry
             />
+
           </View>
 
           {/* Confirm Password */}
@@ -122,21 +134,20 @@ export default function RegistrationScreenEmployer() {
 
             <TextInput
               style={style.textInput}
-              className="border border-gray-300 rounded-md p-3 mb-10"
+              className="border border-gray-300 rounded-md p-3"
               placeholder="Confirm your password"
               secureTextEntry
             />
           </View>
 
           {/* Proceed Button */}
-          <Link
-            href="confirmRegistration"
-            className="bg-[#6C63FF] px-6 py-4 rounded-xl w-full"
-          >
-            <Text className="text-white font-bold text-center"> Proceed </Text>
-          </Link>
+          <ProceedButton 
+          href='/confirmRegistration' 
+          label='Proceed'/>
         </View>
+
       </View>
+
     </View>
   );
 }

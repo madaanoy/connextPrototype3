@@ -1,7 +1,9 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { Link } from 'expo-router'
 import React from 'react';
-import appLogo from '../assets/images/app_logo.png';
-import { Link } from 'expo-router';
+
+import appLogo from '../../assets/images/app_logo.png';
+import ProceedButton from '../components/ProceedButton';
 
 export default function ConfirmRegistration() {
    return (
@@ -19,7 +21,8 @@ export default function ConfirmRegistration() {
          </Text>
 
          {/* Content */}
-         <View className="items-center justify-center px-4 space-y-4">
+         <View className="items-center justify-center px-4 space-y-4 mb-10">
+
             <Text style={styles.bodyText} className='mb-5'>
                Please wait while we verify your status as an Employer.
                As a platform that provides opportunities, it is important
@@ -32,14 +35,18 @@ export default function ConfirmRegistration() {
 
                Thank you.
             </Text>
+            
          </View>
 
-         <Link
-            href="/loginScreen"
-            className="bg-[#6C63FF] px-6 py-4 rounded-xl" style={{ width: 150, height: 50, marginTop: '50%' }}>
-            <Text className="text-white font-bold text-center">I understand</Text>
-         </Link>
-         <Text className='mt-5'> Read our terms and conditions<Link href="termsAndConditions" className='text-blue-500 font-bold'> here. </Link> </Text>
+         <ProceedButton href='/loginScreen' label='I understand' />
+
+         <Text className='mt-5'> Read our terms and conditions
+
+            <Link
+               href="termsAndConditions" className='text-blue-500 font-bold'> here.
+            </Link>
+
+         </Text>
       </View>
    );
 }

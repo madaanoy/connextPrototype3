@@ -9,7 +9,7 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 
-import { Link } from 'expo-router';
+import ProceedButton from './components/ProceedButton';
 
 import appLogo from '../assets/images/app_logo.png';
 import jobSeeker from '../assets/images/jobSeeker.png';
@@ -47,7 +47,9 @@ export default function AccountType() {
   const isActive = (type: 'jobseeker' | 'employer') => settledType === type;
 
   return (
+
     <SafeAreaView className="flex-1 items-center justify-center px-4 bg-white">
+
       <Image source={appLogo} className="w-[250px] h-[95px]" resizeMode="contain" />
 
       <Text style={styles.titleText}>Who are you?</Text>
@@ -57,7 +59,7 @@ export default function AccountType() {
       </Text>
 
       {/* Sliding Highlight Bar */}
-      <View className="flex-row w-full justify-between relative p-1 rounded-2xl">
+      <View className="flex-row w-full justify-between relative p-1 mb-10 rounded-2xl">
         <Animated.View
           style={[
             {
@@ -124,12 +126,12 @@ export default function AccountType() {
       </View>
 
       {/* Dynamic navigation button */}
-      <Link
-        href={selected === 'jobseeker' ? '/registrationScreenJS' : '/registrationScreenEmployer'}
-        className="bg-[#6C63FF] px-20 py-4 rounded-xl mt-40"
-      >
-        <Text className="text-white font-bold text-center">Proceed</Text>
-      </Link>
+
+      <ProceedButton
+      href={selected === 'jobseeker' ? '/registrationScreenJS' : '/registrationScreenEmployer'}
+      label="Proceed"
+      />
+
     </SafeAreaView>
   );
 }
