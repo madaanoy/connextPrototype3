@@ -21,7 +21,7 @@ export default function JobSeekerHome() {
 
         <Text
           style={{ fontFamily: 'Poppins-Bold' }}
-          className="pl-10 mt-6 text-2xl"
+          className="px-4 mt-6 text-2xl"
         >
           Find Jobs
         </Text>

@@ -2,8 +2,8 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import justLogo from '../assets/images/justLogo.png';
-import ProceedButton from './components/ProceedButton';
+import justLogo from '../../assets/images/justLogo.png';
+import ProceedButton from '../components/ProceedButton';
 
 export default function OnboardingScreen2() {
   return (

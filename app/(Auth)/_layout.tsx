@@ -4,6 +4,6 @@ import { Stack } from 'expo-router'
 
 export default function AuthLayout() {
   return (
-   <Stack initialRouteName='registrationScreenEmployer' screenOptions={{headerShown: false}}></Stack>
+   <Stack initialRouteName='loginScreen' screenOptions={{headerShown: false}}></Stack>
   )
 }

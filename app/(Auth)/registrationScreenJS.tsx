@@ -84,7 +84,7 @@ export default function RegistrationScreenJS() {
               style={style.textInput}
               className="border border-gray-300 rounded-md p-3"
               placeholder="Create a password"
-              secureTextEntry
+              
             />
           </View>
 
@@ -98,7 +98,7 @@ export default function RegistrationScreenJS() {
               style={style.textInput}
               className="border border-gray-300 rounded-md p-3"
               placeholder="Confirm your password"
-              secureTextEntry
+              
             />
           </View>
 

@@ -9,11 +9,11 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 
-import ProceedButton from './components/ProceedButton';
+import ProceedButton from '../components/ProceedButton';
 
-import appLogo from '../assets/images/app_logo.png';
-import jobSeeker from '../assets/images/jobSeeker.png';
-import Employer from '../assets/images/Employer.png';
+import appLogo from '../../assets/images/app_logo.png';
+import jobSeeker from '../../assets/images/jobSeeker.png';
+import Employer from '../../assets/images/Employer.png';
 
 const { width } = Dimensions.get('window');
 

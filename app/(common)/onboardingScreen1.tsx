@@ -2,8 +2,8 @@ import { StyleSheet, View, Text, Image } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import appLogo from "../assets/images/app_logo.png"
-import ProceedButton from './components/ProceedButton'
+import appLogo from "../../assets/images/app_logo.png"
+import ProceedButton from '../components/ProceedButton'
 
 export default function onboardingScreen1() {
   return (
@@ -19,7 +19,7 @@ export default function onboardingScreen1() {
           resizeMode='contain'>
         </Image>
 
-        <Text className="text-base text-center text-black-100 mr-5 ml-5 mb-20">
+        <Text style={{fontFamily: 'Lexend-Regular'}} className="text-base text-center text-black-100 my-5 mx-5">
           We offer a centralized mobile platform that makes it more accessible for individuals
           that struggle with taking the first step into the professional world.
         </Text>
