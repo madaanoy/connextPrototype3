@@ -1,42 +1,22 @@
 import React from 'react';
-import { StyleSheet, Image, View, Text } from 'react-native';
-import { Bell } from 'lucide-react-native';
+import { Image, View, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import JobPostingCard from '../../components/JobPostingCard'
-import justLogo from '../../../assets/images/justLogo.png';
+import JobPostingCard from '../../Components/JobPostingCard'
+import LogoAndNotif from '../../Components/LogoAndNotif';
 
 export default function JobSeekerHome() {
   return (
-    <View className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white">
 
-      <View className="pt-10">
-        <View className="flex-row justify-between items-center mr-10">
-          <Image
-            source={justLogo}
-            style={styles.imageStyle}
-            className="ml-2 mt-5"
-          />
-          <Bell size={20} />
-        </View>
+      <LogoAndNotif></LogoAndNotif>
 
-        <Text
-          style={{ fontFamily: 'Poppins-Bold' }}
-          className="px-4 mt-6 text-2xl"
-        >
-          Find Jobs
-        </Text>
+      <View className='py-2 px-2'>
+        <Text style={{fontFamily: 'Lexend-Bold'}} className='text-2xl'> Find Jobs </Text>
       </View>
 
       <JobPostingCard/>
       
-    </View>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  imageStyle: {
-    resizeMode: 'contain',
-    width: 50,
-    height: 50,
-  }
-});

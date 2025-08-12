@@ -3,7 +3,7 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import appLogo from "../../assets/images/app_logo.png"
-import ProceedButton from '../components/ProceedButton'
+import ProceedButton from '../Components/ProceedButton'
 
 export default function onboardingScreen1() {
   return (

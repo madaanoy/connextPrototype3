@@ -22,11 +22,11 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack initialRouteName='(common)' screenOptions={{ headerShown: false }}>
+    <Stack initialRouteName='(jobSeeker)' screenOptions={{ headerShown: false }}>
       <Stack.Screen name='(common)' options={{ headerShown: false}}></Stack.Screen>
       <Stack.Screen name='(Employer)' options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name='(jobSeeker)' options={{ headerShown: false }}></Stack.Screen>
-      <Stack.Screen name='(auth)' options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name='(Auth)' options={{ headerShown: false }}></Stack.Screen>
     </Stack>
   );
 }

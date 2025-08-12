@@ -3,7 +3,7 @@ import { Link } from 'expo-router'
 import React from 'react';
 
 import appLogo from '../../assets/images/app_logo.png';
-import ProceedButton from '../components/ProceedButton';
+import ProceedButton from '../Components/ProceedButton';
 
 export default function ConfirmRegistration() {
    return (

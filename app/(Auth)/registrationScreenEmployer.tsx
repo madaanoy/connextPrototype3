@@ -6,7 +6,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import { MapPin, Mail, Lock, } from 'lucide-react-native'
 
 import justLogo from '../../assets/images/justLogo.png';
-import ProceedButton from '../components/ProceedButton';
+import ProceedButton from '../Components/ProceedButton'
 
 export default function RegistrationScreenEmployer() {
   const [documentName, setDocumentName] = useState<string | null>(null);

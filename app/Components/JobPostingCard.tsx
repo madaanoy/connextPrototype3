@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { 
-   Image, StyleSheet, 
-   SafeAreaView, View, 
-   Text, Modal, Button, 
+import {
+   Image, StyleSheet,
+   SafeAreaView, View,
+   Text, Modal, Button,
    Touchable,
    TouchableOpacity
 } from 'react-native';
@@ -74,18 +74,17 @@ export default function JobPostingCard() {
 
                   <View className="flex-row items-center justify-evenly mt-5">
 
-                     <Text
-                        className="p-3 bg-slate-100 rounded-xl text-[#1572DB]">
+                     <Text style={{fontFamily: 'Lexend-Regular'}} className="p-3 bg-slate-100 rounded-xl text-[#1572DB]">
                         80% match for you
                      </Text>
 
                      <TouchableOpacity className='flex-row' onPress={show}>
                         <Text
-                        style={{
-                           fontFamily: 'Lexend-Regular',
-                           textDecorationLine: 'underline'
-                        }}
-                        className="text-white">Tap to view more
+                           style={{
+                              fontFamily: 'Lexend-Regular',
+                              textDecorationLine: 'underline'
+                           }}
+                           className="text-white">Tap to view more
                         </Text>
 
                         <View className="pl-3">
@@ -94,20 +93,20 @@ export default function JobPostingCard() {
 
                      </TouchableOpacity>
 
-                     <Modal 
-                     visible={modalVisible}
-                     animationType='slide' 
-                     transparent={true}
-                      onRequestClose={hide}>
+                     <Modal
+                        visible={modalVisible}
+                        animationType='slide'
+                        transparent={true}
+                        onRequestClose={hide}>
                         <View>
-                           <Text 
-                           style={{fontFamily: 'Lexend-Bold'}} 
-                           className='text-xl'> 
-                              Service Crew 
+                           <Text
+                              style={{ fontFamily: 'Lexend-Bold' }}
+                              className='text-xl'>
+                              Service Crew
                            </Text>
                         </View>
                      </Modal>
-                     
+
                   </View>
 
                </View>

@@ -9,7 +9,7 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 
-import ProceedButton from '../components/ProceedButton';
+import ProceedButton from '../Components/ProceedButton';
 
 import appLogo from '../../assets/images/app_logo.png';
 import jobSeeker from '../../assets/images/jobSeeker.png';

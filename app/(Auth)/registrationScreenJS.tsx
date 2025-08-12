@@ -5,7 +5,7 @@ import { Link } from 'expo-router';
 import { Mail, Lock } from 'lucide-react-native';
 
 import justLogo from '../../assets/images/justLogo.png';
-import ProceedButton from '../components/ProceedButton';
+import ProceedButton  from '../Components/ProceedButton'
 
 export default function RegistrationScreenJS() {
   return (
