@@ -10,7 +10,7 @@ export default function prospectsScreen() {
       <LogoAndNotif></LogoAndNotif>
 
       <View className='py-2 px-2'>
-        <Text style={{ fontFamily: 'Lexend-Bold' }} className='text-2xl'> Your Prospects </Text>
+        <Text style={{ fontFamily: 'Lexend-Bold' }} className='text-2xl color-[#37424F]'> Your Prospects </Text>
       </View>
 
 

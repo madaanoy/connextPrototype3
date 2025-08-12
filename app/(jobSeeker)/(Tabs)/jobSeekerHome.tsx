@@ -12,7 +12,7 @@ export default function JobSeekerHome() {
       <LogoAndNotif></LogoAndNotif>
 
       <View className='py-2 px-2'>
-        <Text style={{fontFamily: 'Lexend-Bold'}} className='text-2xl'> Find Jobs </Text>
+        <Text style={{fontFamily: 'Lexend-Bold'}} className='text-2xl color-[#37424F]'> Find Jobs </Text>
       </View>
 
       <JobPostingCard/>
