@@ -3,9 +3,9 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import appLogo from "../../assets/images/app_logo.png"
-import ProceedButton from '../Components/ProceedButton'
+import ProceedButton from '../components/ProceedButton'
 
-export default function onboardingScreen1() {
+export default function OnboardingScreen1() {
   return (
     <SafeAreaView className='flex-1 bg-white'>
       <View className='flex-1 items-center justify-center px-6 pb-10'>
@@ -26,7 +26,7 @@ export default function onboardingScreen1() {
 
         <ProceedButton
         label="Let's get started!"
-        href="/onboardingScreen2"/>
+        href="/OnboardingScreen2"/>
 
       </View>
 

@@ -1,12 +1,11 @@
 import { StyleSheet, Text, View, Image, TextInput, Pressable } from 'react-native';
 import React, { useState } from 'react';
 
-import { Link } from 'expo-router';
 import * as DocumentPicker from 'expo-document-picker';
 import { MapPin, Mail, Lock, } from 'lucide-react-native'
 
 import justLogo from '../../assets/images/justLogo.png';
-import ProceedButton from '../Components/ProceedButton'
+import ProceedButton from '../components/ProceedButton'
 
 export default function RegistrationScreenEmployer() {
   const [documentName, setDocumentName] = useState<string | null>(null);
@@ -142,7 +141,7 @@ export default function RegistrationScreenEmployer() {
 
           {/* Proceed Button */}
           <ProceedButton 
-          href='/confirmRegistration' 
+          href='/ConfirmRegistration' 
           label='Proceed'/>
         </View>
 

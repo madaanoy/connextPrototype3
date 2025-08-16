@@ -4,7 +4,7 @@ import React from 'react'
 export default function applicantsScreen() {
   return (
     <View className='flex-1 items-center justify-center'>
-      <Text>prospectsScreen</Text>
+      <Text>Applicants Screen</Text>
     </View>
   )
 }

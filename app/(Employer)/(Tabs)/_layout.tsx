@@ -4,7 +4,7 @@ export default function _layout() {
    return (
       <Tabs>
          
-         <Tabs.Screen name='employerHome' 
+         <Tabs.Screen name='employer-home' 
          options={{
          title: 'Home', 
          headerShown: false,
@@ -17,7 +17,7 @@ export default function _layout() {
 
          </Tabs.Screen>
 
-         <Tabs.Screen name='applicantsScreen' 
+         <Tabs.Screen name='applicants-screen' 
          options={{
          title: 'Applicants', 
          headerShown: false, 
@@ -29,7 +29,7 @@ export default function _layout() {
 
          </Tabs.Screen>
 
-         <Tabs.Screen name='messagesScreen' 
+         <Tabs.Screen name='messages-screen' 
          options={{title: 'Messages', 
          headerShown: false,
          tabBarLabelStyle: {
@@ -41,7 +41,7 @@ export default function _layout() {
 
          </Tabs.Screen>
 
-         <Tabs.Screen name='profileScreen' 
+         <Tabs.Screen name='profile-screen' 
          options={{title: 'Profile', 
          headerShown: false,
          tabBarLabelStyle: {

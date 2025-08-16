@@ -72,7 +72,7 @@ export default function LoginScreen() {
             <Text className="text-sm text-gray-700 mt-5">Keep me signed in</Text>
           </Pressable>
 
-          <Link href="/forgotPassword">
+          <Link href="/forgotpassword">
             <Text className="text-sm text-[#1572DB] font-semibold">Forgot password?</Text>
           </Link>
         </View>
@@ -80,7 +80,7 @@ export default function LoginScreen() {
         {/* Login Buttons */}
         <View className="space-y-4 mt-4">
           <Link
-            href="/jobSeekerHome"
+            href="/jobseeker-home"
             className="bg-[#6C63FF] px-6 py-3 rounded-lg items-center justify-center"
           >
             <Text className="text-white font-bold text-center">Login as Job Seeker</Text>
@@ -95,7 +95,7 @@ export default function LoginScreen() {
           </View>
 
           <Link
-            href="/employerHome"
+            href="/employer-home"
             className="bg-[#1572DB] px-6 py-3 rounded-lg items-center justify-center"
           >
             <Text className="text-white font-bold text-center">Login as Employer</Text>
@@ -105,7 +105,7 @@ export default function LoginScreen() {
         {/* Register Link */}
         <Text className="justify-center text-center mt-5">
           Don&apos;t have an account?
-          <Link href="/accountType" className="text-[#6C63FF] font-bold">
+          <Link href="/AccountType" className="text-[#6C63FF] font-bold">
             {' '}Register now.
           </Link>
         </Text>

@@ -3,7 +3,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import justLogo from '../../assets/images/justLogo.png';
-import ProceedButton from '../Components/ProceedButton';
+import ProceedButton from '../components/ProceedButton';
 
 export default function OnboardingScreen2() {
   return (
@@ -61,7 +61,7 @@ export default function OnboardingScreen2() {
       {/* Proceed Button */}
         <ProceedButton
         label="Let's get started!"
-        href="/accountType"/>
+        href="/AccountType"/>
     </SafeAreaView>
   );
 }

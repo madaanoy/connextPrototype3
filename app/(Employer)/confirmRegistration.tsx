@@ -2,8 +2,8 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { Link } from 'expo-router'
 import React from 'react';
 
-import appLogo from '../../assets/images/app_logo.png';
-import ProceedButton from '../Components/ProceedButton';
+import appLogo from '../../assets/images/app_logo.png'
+import ProceedButton from '../components/ProceedButton';
 
 export default function ConfirmRegistration() {
    return (
@@ -38,12 +38,12 @@ export default function ConfirmRegistration() {
             
          </View>
 
-         <ProceedButton href='/loginScreen' label='I understand' />
+         <ProceedButton href='/LoginScreen' label='I understand' />
 
          <Text className='mt-5'> Read our terms and conditions
 
             <Link
-               href="termsAndConditions" className='text-blue-500 font-bold'> here.
+               href="termsandconditions" className='text-blue-500 font-bold'> here.
             </Link>
 
          </Text>

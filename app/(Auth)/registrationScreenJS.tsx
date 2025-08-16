@@ -5,7 +5,7 @@ import { Link } from 'expo-router';
 import { Mail, Lock } from 'lucide-react-native';
 
 import justLogo from '../../assets/images/justLogo.png';
-import ProceedButton  from '../Components/ProceedButton'
+import ProceedButton  from '../components/ProceedButton'
 
 export default function RegistrationScreenJS() {
   return (
@@ -104,7 +104,7 @@ export default function RegistrationScreenJS() {
 
           {/* Proceed Button */}
           <Link
-            href="/loginScreen"
+            href="/LoginScreen"
             className="bg-[#6C63FF] px-6 py-4 rounded-xl w-full"
           >
             <Text className="text-white font-bold text-center">Proceed</Text>

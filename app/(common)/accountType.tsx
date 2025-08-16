@@ -9,7 +9,7 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 
-import ProceedButton from '../Components/ProceedButton';
+import { Link } from 'expo-router'
 
 import appLogo from '../../assets/images/app_logo.png';
 import jobSeeker from '../../assets/images/jobSeeker.png';
@@ -127,10 +127,12 @@ export default function AccountType() {
 
       {/* Dynamic navigation button */}
 
-      <ProceedButton
-      href={selected === 'jobseeker' ? '/registrationScreenJS' : '/registrationScreenEmployer'}
-      label="Proceed"
-      />
+      <Link
+        href={selected === 'jobseeker' ? '/RegistrationScreenJS' : '/RegistrationScreenEmployer'}
+        className="bg-[#6C63FF] px-6 py-3 rounded-lg items-center justify-center"
+      >
+        <Text className="text-white font-bold text-center">Proceed</Text>
+      </Link>
 
     </SafeAreaView>
   );

@@ -3,9 +3,9 @@ import { Home, Inbox, MessageCircle, UserRound } from 'lucide-react-native';
 
 export default function _layout() {
    return (
-      <Tabs initialRouteName='profileScreen'>
+      <Tabs>
 
-         <Tabs.Screen name='jobSeekerHome'
+         <Tabs.Screen name='jobseeker-home'
             options={{
                title: 'Home',
                tabBarLabelStyle: {
@@ -25,7 +25,7 @@ export default function _layout() {
             }}>
          </Tabs.Screen>
 
-         <Tabs.Screen name='prospectsScreen'
+         <Tabs.Screen name='prospects-screen'
             options={{
                title: 'Prospects',
                tabBarLabelStyle: {
@@ -44,7 +44,7 @@ export default function _layout() {
             }}>
          </Tabs.Screen>
 
-         <Tabs.Screen name='messagesScreen'
+         <Tabs.Screen name='messages-screen'
             options={{
                title: 'Messages',
                headerShown: false,
@@ -64,7 +64,7 @@ export default function _layout() {
 
          </Tabs.Screen>
 
-         <Tabs.Screen name='profileScreen'
+         <Tabs.Screen name='profile-screen'
             options={{
                title: 'Profile',
                headerShown: false,
