@@ -10,7 +10,7 @@ import userIcon from '../../../assets/images/placeholderImage.png';
 export default function MessagesScreen() {
   const [activeTab, setActiveTab] = useState('messages'); // 'messages' or 'favorites'
 
-  const handleOpenChat = (conversationId) => {
+  const handleOpenChat = (conversationId: number) => {
     router.push(`/chat/${conversationId}`);
   };
 
@@ -43,26 +43,34 @@ export default function MessagesScreen() {
 
       {/* Content */}
       <View className="px-4 py-2 mt-2">
+
         {activeTab === 'messages' ? (
           <TouchableOpacity
             onPress={() => handleOpenChat(1)} // example chat ID
             className="flex-row items-center p-3 border-b border-gray-200"
           >
             <Image source={userIcon} className="w-12 h-12 rounded-full mr-3" />
+
             <View>
+              
               <Text style={{ fontFamily: 'Lexend-Bold' }} className="text-lg">
                 Jollibee
               </Text>
+
               <Text style={{ fontFamily: 'Lexend-Regular' }} className="text-gray-600">
                 Hi, I'm interested in your application
               </Text>
+
             </View>
+            
           </TouchableOpacity>
+
         ) : (
           <Text style={{ fontFamily: 'Lexend-Regular' }}>
             You have no favorite conversations yet.
           </Text>
         )}
+
       </View>
     </SafeAreaView>
   );
