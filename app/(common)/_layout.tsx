@@ -4,7 +4,7 @@ import { Stack } from 'expo-router'
 
 export default function _layout() {
    return (
-      <Stack initialRouteName='index'>
+      <Stack initialRouteName='AccountType'>
          <Stack.Screen name="index" options={{headerShown: false}}></Stack.Screen>
          <Stack.Screen name="OnboardingScreen2" options={{ headerShown: false }}></Stack.Screen>
          <Stack.Screen name="AccountType" options={{ headerShown: false }}></Stack.Screen>

@@ -3,7 +3,7 @@ import { Home, Inbox, MessageCircle, UserRound } from 'lucide-react-native';
 
 export default function _layout() {
    return (
-      <Tabs>
+      <Tabs initialRouteName='jobseeker-home'>
 
          <Tabs.Screen name='jobseeker-home'
             options={{

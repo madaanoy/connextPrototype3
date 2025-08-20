@@ -50,13 +50,17 @@ export default function AccountType() {
 
     <SafeAreaView className="flex-1 items-center justify-center px-4 bg-white">
 
-      <Image source={appLogo} className="w-[250px] h-[95px]" resizeMode="contain" />
+      {/* Header */}
 
-      <Text style={styles.titleText}>Who are you?</Text>
+      <View className='items-center'>
 
-      <Text className="text-center mr-10 ml-10 mt-4 mb-10 mx-10 text-[14px] text-black">
-        Choose one account type so that we know who to pair you up with.
-      </Text>
+        <Image source={appLogo} className="w-[300px] h-[95px]" resizeMode="contain" />
+        <Text style={styles.titleText}>Who are you?</Text>
+        <Text style={{ fontFamily: 'Lexend-Regular' }} className="text-center mx-10 my-8 text-[14px] text-black">
+          Choose one account type so that we know who to pair you up with.
+        </Text>
+
+      </View>
 
       {/* Sliding Highlight Bar */}
       <View className="flex-row w-full justify-between relative p-1 mb-10 rounded-2xl">
@@ -129,7 +133,7 @@ export default function AccountType() {
 
       <Link
         href={selected === 'jobseeker' ? '/RegistrationScreenJS' : '/RegistrationScreenEmployer'}
-        className="bg-[#6C63FF] px-6 py-3 rounded-lg items-center justify-center"
+        className="bg-[#6C63FF] px-10 py-3 my-5 rounded-lg items-center justify-center"
       >
         <Text className="text-white font-bold text-center">Proceed</Text>
       </Link>

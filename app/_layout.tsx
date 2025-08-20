@@ -4,6 +4,8 @@ enableScreens();
 import React from 'react';
 import { Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
+import { Slot } from 'expo-router';
+import { JobProspectsProvider } from './context/JobProspectsContext';
 
 import "../global.css";
 
@@ -25,12 +27,14 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack initialRouteName="(jobseeker)">
-      <Stack.Screen name="(common)" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      <Stack.Screen name="(jobseeker)" options={{headerShown: false}} />
-      <Stack.Screen name="(employer)" options={{headerShown: false}} />
-      <Stack.Screen name='chat' options={{headerShown: false}}></Stack.Screen>
-    </Stack>
+    <JobProspectsProvider>
+      <Stack initialRouteName="(jobseeker)">
+        <Stack.Screen name="(common)" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(jobseeker)" options={{ headerShown: false }} />
+        <Stack.Screen name="(employer)" options={{ headerShown: false }} />
+        <Stack.Screen name='chat' options={{ headerShown: false }}></Stack.Screen>
+      </Stack>
+    </JobProspectsProvider>
   );
 }

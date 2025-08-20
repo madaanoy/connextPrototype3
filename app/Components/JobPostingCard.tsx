@@ -16,13 +16,14 @@ import {
 import { Card } from 'react-native-paper';
 import companyLogo from '../../assets/images/placeholderImage.png';
 import { BriefcaseBusiness, PhilippinePeso, MapPin, Expand, Minimize } from 'lucide-react-native';
+import { useJobProspects } from '../context/JobProspectsContext';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
 // Job postings data
 const jobPostings = [
   {
-    id: 1,
+    id: 1, 
     company: "Jollibee",
     position: "Clean Up Crew",
     salary: "PHP 40,000 - 55,000/month",
@@ -184,6 +185,7 @@ const jobPostings = [
 ];
 
 export default function JobPostingCard() {
+  const { saveJob } = useJobProspects();
   const [modalVisible, setModalVisible] = React.useState(false);
   const [currentJobIndex, setCurrentJobIndex] = React.useState(0);
   const show = () => setModalVisible(true);
@@ -192,16 +194,16 @@ export default function JobPostingCard() {
   // Get current job posting
   const currentJob = jobPostings[currentJobIndex];
 
-  // Bottom sheet config (unchanged behavior, renamed pan -> sheetPan)
+  // Bottom sheet config
   const maxHeightPercent = 0.8;
   const sheetHeight = SCREEN_HEIGHT * maxHeightPercent;
 
   const translateY = React.useRef(new Animated.Value(SCREEN_HEIGHT)).current;
-  const sheetPan = React.useRef(new Animated.Value(0)).current; // vertical pan for sheet
+  const sheetPan = React.useRef(new Animated.Value(0)).current;
 
-  // --- Card horizontal swipe config ---
+  // Card horizontal swipe config
   const cardPan = React.useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
-  const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25; // how far to swipe before it counts
+  const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
 
   // Keep track of the current offset for smooth dragging
   const cardOffset = React.useRef({ x: 0, y: 0 });
@@ -226,21 +228,35 @@ export default function JobPostingCard() {
   });
 
   // callbacks for swipe actions - now cycles through job postings
-  const onSwipeRight = () => {
-    // Move to next job posting (save/like action)
-    console.log('Swiped RIGHT - Liked job:', currentJob.company, currentJob.position);
+  const onSwipeRight = React.useCallback((jobIndex: number) => {
+    // Get the job at the specified index
+    const jobToSave = jobPostings[jobIndex];
+    console.log('Swiped RIGHT - Liked job:', jobToSave.company, jobToSave.position, 'Index:', jobIndex);
+    saveJob(jobToSave);
+    
+    // Move to next job posting immediately
     setCurrentJobIndex((prevIndex) => (prevIndex + 1) % jobPostings.length);
-  };
+  }, [saveJob]);
 
-  const onSwipeLeft = () => {
-    // Move to next job posting (dismiss action)
-    console.log('Swiped LEFT - Dismissed job:', currentJob.company, currentJob.position);
+  const onSwipeLeft = React.useCallback((jobIndex: number) => {
+    // Get the job at the specified index
+    const jobToDismiss = jobPostings[jobIndex];
+    console.log('Swiped LEFT - Dismissed job:', jobToDismiss.company, jobToDismiss.position, 'Index:', jobIndex);
+    
+    // Move to next job posting immediately
     setCurrentJobIndex((prevIndex) => (prevIndex + 1) % jobPostings.length);
-  };
+  }, []);
+
+  // Add useEffect to track index changes and ensure proper re-render
+  React.useEffect(() => {
+    console.log('Current job index:', currentJobIndex);
+    console.log('Current job:', jobPostings[currentJobIndex]?.company);
+    console.log('Full job details:', jobPostings[currentJobIndex]);
+  }, [currentJobIndex]);
 
   // PanResponder for the card (horizontal)
-  const cardPanResponder = React.useRef(
-    PanResponder.create({
+  const cardPanResponder = React.useMemo(
+    () => PanResponder.create({
       onStartShouldSetPanResponder: () => false,
       onMoveShouldSetPanResponder: (_, gestureState) =>
         Math.abs(gestureState.dx) > 5 && Math.abs(gestureState.dx) > Math.abs(gestureState.dy),
@@ -269,15 +285,13 @@ export default function JobPostingCard() {
             duration: 220,
             useNativeDriver: false,
           }).start(() => {
-            // trigger action, then reset position for next card
-            if (toRight) onSwipeRight();
-            else onSwipeLeft();
+            // trigger action with the current index directly, then reset position for next card
+            if (toRight) onSwipeRight(currentJobIndex);
+            else onSwipeLeft(currentJobIndex);
 
-            // small timeout so users can see the slide-away before resetting
-            setTimeout(() => {
-              cardPan.setValue({ x: 0, y: 0 });
-              cardOffset.current = { x: 0, y: 0 };
-            }, 60);
+            // Reset position immediately after action
+            cardPan.setValue({ x: 0, y: 0 });
+            cardOffset.current = { x: 0, y: 0 };
           });
         } else {
           // return to center smoothly
@@ -292,8 +306,9 @@ export default function JobPostingCard() {
         // ensure it returns to center if interrupted
         Animated.spring(cardPan, { toValue: { x: 0, y: 0 }, friction: 6, useNativeDriver: false }).start();
       },
-    })
-  ).current;
+    }),
+    [currentJobIndex, onSwipeRight, onSwipeLeft] // Include dependencies so it updates with currentJobIndex
+  );
 
   // PanResponder for the bottom sheet (vertical)
   const sheetPanResponder = React.useRef(
@@ -342,7 +357,7 @@ export default function JobPostingCard() {
 
   const translateYStyle = { transform: [{ translateY: Animated.add(translateY, sheetPan) }] };
 
-  // card animated style - properly typed
+  // card animated style
   const cardAnimatedStyle: Animated.WithAnimatedObject<ViewStyle> = {
     transform: [
       { translateX: cardPan.x },

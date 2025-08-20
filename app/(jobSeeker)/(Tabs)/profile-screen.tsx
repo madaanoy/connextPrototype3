@@ -16,7 +16,7 @@ import * as DocumentPicker from "expo-document-picker";
 
 export default function ProfileScreen() {
   const router = useRouter();
-  const [resumeFile, setResumeFile] = useState<string | null>(null);
+  const [resumeFile, setResumeFile] = useState<{ name: string; size: number } | null>(null);
 
   const pickDocument = async () => {
     try {
@@ -26,26 +26,23 @@ export default function ProfileScreen() {
         copyToCacheDirectory: true,
       });
 
-      // ✅ New API
       if ("canceled" in res) {
         if (!res.canceled && res.assets && res.assets.length > 0) {
           const file = res.assets[0];
-          setResumeFile(file.name); // <-- Store file name
-          console.log("Picked file:", file);
+          setResumeFile({ name: file.name, size: file.size ?? 0 });
         }
         return;
       }
 
-      // ✅ Legacy API
       const oldRes = res as any;
       if (oldRes?.type === "success" && oldRes?.name) {
-        setResumeFile(oldRes.name); // <-- Store file name
-        console.log("Picked file (legacy):", oldRes);
+        setResumeFile({ name: oldRes.name, size: oldRes.size ?? 0 });
       }
     } catch (error) {
       console.error("Error picking document:", error);
     }
   };
+
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -153,23 +150,35 @@ export default function ProfileScreen() {
       </View>
 
       <View className="px-2">
-        <View className="flex-row justify-between px-2 py-4">
+        <View className="flex-row items-center justify-between px-2 py-4">
           {/* Upload PDF */}
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={pickDocument}
-            className="flex-row items-center border border-gray-300 rounded-lg px-3 py-2"
+            className="flex-1 flex-row items-center border border-gray-300 rounded-lg px-3 py-3 mr-2"
           >
             <Upload size={16} color="#37424F" />
-            <Text
-              style={{ fontFamily: "Lexend-Regular" }}
-              className="ml-2 text-[#37424F]"
-            >
-              {resumeFile ? resumeFile : "Upload your resume here"}
-            </Text>
+            <View className="ml-2 flex-1">
+              <Text
+                style={{ fontFamily: "Lexend-Regular" }}
+                className="text-[#37424F] truncate"
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {resumeFile ? resumeFile.name : "Upload your resume here"}
+              </Text>
+              {resumeFile?.size && (
+                <Text
+                  style={{ fontFamily: "Lexend-Regular" }}
+                  className="text-xs text-gray-500"
+                >
+                  {(resumeFile.size / 1024).toFixed(1)} KB
+                </Text>
+              )}
+            </View>
           </TouchableOpacity>
 
-          {/* Create Resume Button */}
+          {/* Programmatic navigation for Create Resume */}
           <TouchableOpacity
             accessibilityRole="button"
             accessibilityLabel="Create resume"
@@ -228,7 +237,7 @@ export default function ProfileScreen() {
           <Text
             style={{ fontFamily: "Lexend-Bold" }}
             className="text-blue-600"
-            onPress={() => router.push("/loginScreen")}
+            onPress={() => router.push("/LoginScreen")}
           >
             Logout
           </Text>
