@@ -3,8 +3,8 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import LogoAndNotif from '../../components/LogoAndNotif'
-import ProspectsSearchBar from '../../components/ProspectsSearchBar'
-import JobProspectsCard from '../../components/JobProspectsCard'
+import ProspectsSearchBar from '../../components/jobseeker/ProspectsSearchBar'
+import JobProspectsCard from '../../components/jobseeker/JobProspectsCard'
 
 export default function ProspectsScreen() {
   return (
@@ -20,7 +20,6 @@ export default function ProspectsScreen() {
             Job Prospects
           </Text>
 
-          {/* 🔑 Make search bar expand */}
           <View className="flex-1">
             <ProspectsSearchBar />
           </View>

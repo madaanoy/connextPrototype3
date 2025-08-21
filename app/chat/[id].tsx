@@ -35,7 +35,7 @@ export default function ChatScreen() {
             className="w-10 h-10 rounded-full mx-2"
           />
           <View className='px-2'>
-            <Text style={{ fontFamily: 'Lexend-Medium' }} className="text-[16px] font-semibold">Jollibee</Text>
+            <Text style={{ fontFamily: 'Lexend-Bold' }} className="text-[16px] font-semibold">Jollibee</Text>
             <Text className="text-xs text-gray-500">Active 2 hours ago</Text>
           </View>
         </View>

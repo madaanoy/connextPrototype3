@@ -14,16 +14,16 @@ import {
   ViewStyle,
 } from 'react-native';
 import { Card } from 'react-native-paper';
-import companyLogo from '../../assets/images/placeholderImage.png';
+import companyLogo from '../../../assets/images/placeholderImage.png'
 import { BriefcaseBusiness, PhilippinePeso, MapPin, Expand, Minimize } from 'lucide-react-native';
-import { useJobProspects } from '../context/JobProspectsContext';
+import { useJobProspects } from '../../context/JobProspectsContext';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
 // Job postings data
 const jobPostings = [
   {
-    id: 1, 
+    id: 1,
     company: "Jollibee",
     position: "Clean Up Crew",
     salary: "PHP 40,000 - 55,000/month",
@@ -233,7 +233,7 @@ export default function JobPostingCard() {
     const jobToSave = jobPostings[jobIndex];
     console.log('Swiped RIGHT - Liked job:', jobToSave.company, jobToSave.position, 'Index:', jobIndex);
     saveJob(jobToSave);
-    
+
     // Move to next job posting immediately
     setCurrentJobIndex((prevIndex) => (prevIndex + 1) % jobPostings.length);
   }, [saveJob]);
@@ -242,7 +242,7 @@ export default function JobPostingCard() {
     // Get the job at the specified index
     const jobToDismiss = jobPostings[jobIndex];
     console.log('Swiped LEFT - Dismissed job:', jobToDismiss.company, jobToDismiss.position, 'Index:', jobIndex);
-    
+
     // Move to next job posting immediately
     setCurrentJobIndex((prevIndex) => (prevIndex + 1) % jobPostings.length);
   }, []);
@@ -502,7 +502,7 @@ export default function JobPostingCard() {
                     </Text>
 
                     {currentJob.qualifications.map((qual, index) => (
-                      <Text key={index} className="mb-2">• {qual}</Text>
+                      <Text style={{ fontFamily: 'Poppins-Regular' }} key={index} className="my-2">• {qual}</Text>
                     ))}
                   </View>
 
@@ -511,8 +511,8 @@ export default function JobPostingCard() {
                       Key Responsibilities
                     </Text>
                     {currentJob.responsibilities.map((resp, index) => (
-                      <View key={index} className="mb-2">
-                        <Text>• {resp}</Text>
+                      <View key={index} className="my-2">
+                        <Text style={{ fontFamily: 'Poppins-Regular' }}>• {resp}</Text>
                       </View>
                     ))}
                   </View>
@@ -527,7 +527,7 @@ export default function JobPostingCard() {
                     </Text>
 
                     {currentJob.skills.map((skill, index) => (
-                      <Text key={index} className="mb-2">• {skill}</Text>
+                      <Text style={{ fontFamily: 'Poppins-Regular' }} key={index} className="my-2">• {skill}</Text>
                     ))}
                   </View>
 
@@ -536,8 +536,8 @@ export default function JobPostingCard() {
                       Job Type
                     </Text>
                     {currentJob.jobType.map((type, index) => (
-                      <View key={index} className="mb-2">
-                        <Text>• {type}</Text>
+                      <View key={index} className="my-2">
+                        <Text style={{ fontFamily: 'Poppins-Regular' }}>• {type}</Text>
                       </View>
                     ))}
                   </View>
@@ -548,7 +548,7 @@ export default function JobPostingCard() {
                 <Text style={{ fontFamily: 'Lexend-Medium', fontSize: 16 }} className="text-[#5b21b6] font-semibold mt-1 mb-2">
                   Experience
                 </Text>
-                <Text>{currentJob.experience}</Text>
+                <Text style={{ fontFamily: 'Poppins-Regular' }} className='my-2'>{currentJob.experience}</Text>
 
                 <View style={{ height: 32 }} />
               </ScrollView>
@@ -556,7 +556,7 @@ export default function JobPostingCard() {
               {/* Footer */}
               <View className="flex-row justify-evenly items-center jpx-3 py-3">
                 <TouchableOpacity className="bg-[#1f6feb] px-4 py-3 rounded-lg items-center">
-                  <Text className="text-white font-bold" style={{ fontFamily: 'Lexend-Bold' }}>
+                  <Text style={{ fontFamily: 'Lexend-Bold' }} className="text-white">
                     {currentJob.modalMatch}
                   </Text>
                 </TouchableOpacity>

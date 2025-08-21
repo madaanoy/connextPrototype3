@@ -1,145 +1,118 @@
-import {
-  SafeAreaView, StyleSheet,
-  View, Text, Image, TextInput,
-  Pressable, ScrollView
-} from 'react-native';
-import React, { useState } from 'react';
+import { StyleSheet, View, Text, Image, TextInput } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import React from 'react';
 
-import * as DocumentPicker from 'expo-document-picker';
-import { MapPin, Mail, Lock } from 'lucide-react-native';
+import { Link } from 'expo-router';
+import { Mail, Lock } from 'lucide-react-native';
 
 import justLogo from '../../assets/images/justLogo.png';
-import ProceedButton from '../components/ProceedButton';
 
-export default function RegistrationScreenEmployer() {
-  const [documentName, setDocumentName] = useState<string | null>(null);
-
-  const handleDocumentPick = async () => {
-    const result = await DocumentPicker.getDocumentAsync({
-      type: '*/*',
-      copyToCacheDirectory: true,
-      multiple: false,
-    });
-
-    if (result.assets && result.assets.length > 0) {
-      const asset = result.assets[0];
-      setDocumentName(asset.name);
-      console.log('Picked document:', asset);
-    }
-  };
-
+export default function RegistrationScreenJS() {
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1 }}
-        keyboardShouldPersistTaps="handled"
-      >
-        <View className="items-center justify-center py-10 px-6">
+      <View className="items-center justify-center py-8 px-6">
+        
+        {/* Header with logo and title */}
+        <View className="flex-row items-center w-full max-w-md pt-8 mb-6">
+          <Image source={justLogo} className="w-20 h-20" resizeMode="contain" />
+          <View className="ml-4 flex-1">
+            <Text style={style.titleText}>Create an account</Text>
+            <Text style={style.subHeaderText}>
+              Find your jobs with one swipe
+            </Text>
+          </View>
+        </View>
 
-          {/* Header Section */}
-          <View className="flex-row items-center w-full pt-10 max-w-md">
-            <Image source={justLogo} className="w-20 h-20" resizeMode="contain" />
-            <View className="ml-4 flex-1">
-              <Text style={style.titleText}>Create an account</Text>
-              <Text style={style.subHeaderText}>
-                Find your employees with one swipe
-              </Text>
+        {/* Form fields */}
+        <View className="w-full max-w-md">
+
+          {/* Email */}
+          <View className="mb-4">
+            <View className="flex-row items-center mb-2">
+              <Mail size={18} color="#616161" />
+              <Text style={style.fieldHeader} className="ml-2">Email</Text>
             </View>
+            <TextInput
+              style={style.textInput}
+              className="border border-gray-300 rounded-md p-3"
+              placeholder="johndoe@gmail.com"
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
           </View>
 
-          {/* Form Fields */}
-          <View className="w-full py-6">
+          {/* First Name */}
+          <View className="mb-4">
+            <Text style={style.fieldHeader} className="mb-2">First Name</Text>
+            <TextInput
+              style={style.textInput}
+              className="border border-gray-300 rounded-md p-3"
+              placeholder="John"
+            />
+          </View>
 
-            {/* Email */}
-            <View className="py-2">
-              <View className="flex-row items-center py-2">
-                <Mail size={18} color="#616161" />
-                <Text style={style.fieldHeader} className="ml-2">Email</Text>
-              </View>
-              <TextInput
-                style={style.textInput}
-                className="border border-gray-300 rounded-md p-3"
-                placeholder="companyname@gmail.com"
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-            </View>
+          {/* Middle Initial */}
+          <View className="mb-4">
+            <Text style={style.fieldHeader} className="mb-2">Middle Initial (If applicable)</Text>
+            <TextInput
+              style={style.textInput}
+              className="border border-gray-300 rounded-md p-3"
+              placeholder="i.e M."
+              maxLength={2}
+            />
+          </View>
 
-            {/* Company Name */}
-            <View className="py-2">
-              <Text style={style.fieldHeader} className="py-2">Company Name</Text>
-              <TextInput
-                style={style.textInput}
-                className="border border-gray-300 rounded-md p-3"
-                placeholder="Ateneo de Naga University"
-              />
-            </View>
+          {/* Last Name */}
+          <View className="mb-4">
+            <Text style={style.fieldHeader} className="mb-2">Last Name</Text>
+            <TextInput
+              style={style.textInput}
+              className="border border-gray-300 rounded-md p-3"
+              placeholder="Doe"
+            />
+          </View>
 
-            {/* Company Documents */}
-            <View className="py-2">
-              <Text style={style.fieldHeader} className="py-2">
-                Company Documents (Required for verification)
-              </Text>
-              <Pressable
-                onPress={handleDocumentPick}
-                className="border border-gray-300 rounded-md p-3 bg-gray-100"
-              >
-                <Text className="text-gray-700">
-                  {documentName ? documentName : 'Upload document'}
-                </Text>
-              </Pressable>
+          {/* Password */}
+          <View className="mb-4">
+            <View className="flex-row items-center mb-2">
+              <Lock size={18} color="#616161" />
+              <Text style={style.fieldHeader} className="ml-2">Password</Text>
             </View>
+            <TextInput
+              style={style.textInput}
+              className="border border-gray-300 rounded-md p-3"
+              placeholder="Create a password"
+              secureTextEntry
+            />
+          </View>
 
-            {/* Company Address */}
-            <View className="py-2">
-              <View className="flex-row items-center py-2">
-                <MapPin size={18} color="#616161" />
-                <Text style={style.fieldHeader} className="ml-2">Company Address</Text>
-              </View>
-              <TextInput
-                style={style.textInput}
-                className="border border-gray-300 rounded-md p-3"
-                placeholder="Ateneo Ave, Naga City, 4400 Camarines Sur"
-              />
+          {/* Confirm Password */}
+          <View className="mb-8">
+            <View className="flex-row items-center mb-2">
+              <Lock size={18} color="#616161" />
+              <Text style={style.fieldHeader} className="ml-2">Confirm Password</Text>
             </View>
+            <TextInput
+              style={style.textInput}
+              className="border border-gray-300 rounded-md p-3"
+              placeholder="Confirm your password"
+              secureTextEntry
+            />
+          </View>
 
-            {/* Password */}
-            <View className="py-2">
-              <View className="flex-row items-center py-2">
-                <Lock size={18} color="#616161" />
-                <Text style={style.fieldHeader} className="ml-2">Password</Text>
-              </View>
-              <TextInput
-                style={style.textInput}
-                className="border border-gray-300 rounded-md p-3"
-                placeholder="Create a password"
-                secureTextEntry
-              />
-            </View>
-
-            {/* Confirm Password */}
-            <View className="py-2">
-              <View className="flex-row items-center py-2">
-                <Lock size={18} color="#616161" />
-                <Text style={style.fieldHeader} className="ml-2">Confirm Password</Text>
-              </View>
-              <TextInput
-                style={style.textInput}
-                className="border border-gray-300 rounded-md p-3"
-                placeholder="Confirm your password"
-                secureTextEntry
-              />
-            </View>
-
-            {/* Proceed Button */}
-            <View className="mt-6">
-              <ProceedButton href="/ConfirmRegistration" label="Proceed" />
-            </View>
+          {/* Proceed Button */}
+          <View className="mt-2">
+            <Link
+              href="/LoginScreen"
+              className="bg-[#6C63FF] px-6 py-4 rounded-xl w-full"
+            >
+              <Text className="text-white font-bold text-center">Proceed</Text>
+            </Link>
           </View>
 
         </View>
-      </ScrollView>
+
+      </View>
     </SafeAreaView>
   );
 }

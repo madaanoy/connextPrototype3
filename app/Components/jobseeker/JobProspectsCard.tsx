@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import { Card } from 'react-native-paper'
 import React from 'react'
-import { useJobProspects } from '../context/JobProspectsContext'
+import { useJobProspects } from '../../context/JobProspectsContext'
 import { Trash2 } from 'lucide-react-native'
 
 export default function JobProspectsCard() {
@@ -54,9 +54,6 @@ export default function JobProspectsCard() {
               </Text>
               <Text style={{ fontFamily: 'Lexend-Regular' }} className="text-blue-600">
                 {job.match}
-              </Text>
-              <Text style={{ fontFamily: 'Lexend-Regular' }} className="text-xs text-gray-400 mt-1">
-                Job ID: {job.id}
               </Text>
             </Card.Content>
           </Card>

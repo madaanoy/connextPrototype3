@@ -28,7 +28,7 @@ export default function RootLayout() {
 
   return (
     <JobProspectsProvider>
-      <Stack initialRouteName="(jobseeker)">
+      <Stack initialRouteName="(employer)">
         <Stack.Screen name="(common)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(jobseeker)" options={{ headerShown: false }} />

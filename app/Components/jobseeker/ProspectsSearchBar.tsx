@@ -24,7 +24,6 @@ export default function ProspectsSearchBar() {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
-    paddingTop: 8,
     backgroundColor: 'white',
   },
   searchBar: {
