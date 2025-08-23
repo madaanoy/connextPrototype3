@@ -2,16 +2,18 @@ import { StyleSheet, View, Text, Image, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
 
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { Mail, Lock } from 'lucide-react-native';
+import { Router } from 'lucide-react-native';
 
 import justLogo from '../../assets/images/justLogo.png';
 
 export default function RegistrationScreenJS() {
+  const route = useRouter();
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="items-center justify-center py-8 px-6">
-        
+
         {/* Header with logo and title */}
         <View className="flex-row items-center w-full max-w-md pt-8 mb-6">
           <Image source={justLogo} className="w-20 h-20" resizeMode="contain" />
@@ -108,6 +110,13 @@ export default function RegistrationScreenJS() {
             >
               <Text className="text-white font-bold text-center">Proceed</Text>
             </Link>
+          </View>
+
+          <View className='items-center mt-4'>
+            <Text> Already have an account? <Text className='color-[#6C63FF] font-bold' onPress={() => route.push('/LoginScreen')}>
+                Login here!
+              </Text>
+            </Text>
           </View>
 
         </View>

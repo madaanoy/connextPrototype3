@@ -1,40 +1,26 @@
-import * as React from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
-import { Searchbar } from 'react-native-paper';
+import React from "react";
+import { View, TextInput } from "react-native";
+import { Search } from "lucide-react-native";
 
-export default function ProspectsSearchBar() {
-  const [searchQuery, setSearchQuery] = React.useState('');
+interface GenericSearchBarProps {
+  onSearchChange: (text: string) => void;
+  placeholder?: string;
+}
 
+export default function GenericSearchBar({
+  onSearchChange,
+  placeholder = "Search...",
+}: GenericSearchBarProps) {
   return (
-    <View style={styles.container}>
-      <Searchbar
-        placeholderTextColor="#999"
-        onChangeText={setSearchQuery}
-        value={searchQuery}
-        iconColor="#6C63FF"
-        elevation={1}
-        style={styles.searchBar}
-        inputStyle={styles.input}
+    <View className="flex-row items-center bg-gray-100 rounded-lg px-3 py-2">
+      <Search size={18} color="#6B7280" />
+      <TextInput
+        className="flex-1 ml-2 text-gray-800"
+        style={{ fontFamily: "Poppins-Regular" }}
+        placeholder={placeholder}
+        placeholderTextColor="#9CA3AF"
+        onChangeText={onSearchChange}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 16,
-    backgroundColor: 'white',
-  },
-  searchBar: {
-    borderRadius: 15,
-    backgroundColor: '#F6F6F6',
-    height: 48, // forces uniform height
-  },
-  input: {
-    fontSize: 14,
-    paddingBottom: 0,
-    paddingTop: 0,
-    marginTop: -2, // small tweak to center vertically
-    fontFamily: 'Lexend-Regular',
-  },
-})

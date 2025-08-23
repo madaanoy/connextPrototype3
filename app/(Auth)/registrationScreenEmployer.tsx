@@ -5,11 +5,13 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 
+
 import * as DocumentPicker from 'expo-document-picker';
 import { MapPin, Mail, Lock } from 'lucide-react-native';
 
 import justLogo from '../../assets/images/justLogo.png';
 import ProceedButton from '../components/ProceedButton';
+import { useRouter } from "expo-router";
 
 export default function RegistrationScreenEmployer() {
   const [documentName, setDocumentName] = useState<string | null>(null);
@@ -28,6 +30,7 @@ export default function RegistrationScreenEmployer() {
     }
   };
 
+  const route = useRouter();
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView
@@ -136,6 +139,13 @@ export default function RegistrationScreenEmployer() {
             <View className="mt-2">
               <ProceedButton href="/ConfirmRegistration" label="Proceed" />
             </View>
+          </View>
+
+          <View className='items-center mt-4'>
+            <Text> Already have an account? <Text className='color-[#6C63FF] font-bold' onPress={() => route.push('/LoginScreen')}>
+              Login here!
+            </Text>
+            </Text>
           </View>
 
         </View>

@@ -8,6 +8,7 @@ import { Slot } from 'expo-router';
 import { JobProspectsProvider } from './context/JobProspectsContext';
 
 import "../global.css";
+import { JobProvider } from './context/JobOpeningContext';
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -27,6 +28,7 @@ export default function RootLayout() {
   }
 
   return (
+    <JobProvider>
     <JobProspectsProvider>
       <Stack initialRouteName="(employer)">
         <Stack.Screen name="(common)" options={{ headerShown: false }} />
@@ -36,5 +38,6 @@ export default function RootLayout() {
         <Stack.Screen name='chat' options={{ headerShown: false }}></Stack.Screen>
       </Stack>
     </JobProspectsProvider>
+    </JobProvider>
   );
 }
