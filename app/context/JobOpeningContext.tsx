@@ -20,7 +20,7 @@ export interface JobPosting {
   salaryMax: string;
   datePosted: Date;
   isActive: boolean;
-  applicants: Applicant[];   // 🔹 NEW
+  applicants: Applicant[];
 }
 
 interface JobContextType {
@@ -28,6 +28,7 @@ interface JobContextType {
   addJob: (job: Omit<JobPosting, 'id' | 'datePosted' | 'isActive' | 'applicants'>) => void;
   deleteJob: (id: string) => void;
   toggleJobStatus: (id: string) => void;
+  updateJob: (id: string, updates: Partial<Omit<JobPosting, 'id' | 'datePosted' | 'applicants'>>) => void;
 }
 
 const JobContext = createContext<JobContextType | undefined>(undefined);
@@ -55,19 +56,30 @@ export const JobProvider: React.FC<JobProviderProps> = ({ children }) => {
       id: Date.now().toString(),
       datePosted: new Date(),
       isActive: true,
-      applicants: [], // 🔹 initialize empty
+      applicants: [],
     };
-    setJobs((prevJobs) => [newJob, ...prevJobs]);
+    setJobs(prevJobs => [newJob, ...prevJobs]);
   };
 
   const deleteJob = (id: string) => {
-    setJobs((prevJobs) => prevJobs.filter((job) => job.id !== id));
+    setJobs(prevJobs => prevJobs.filter(job => job.id !== id));
   };
 
   const toggleJobStatus = (id: string) => {
-    setJobs((prevJobs) =>
-      prevJobs.map((job) =>
+    setJobs(prevJobs =>
+      prevJobs.map(job =>
         job.id === id ? { ...job, isActive: !job.isActive } : job
+      )
+    );
+  };
+
+  const updateJob = (
+    id: string,
+    updates: Partial<Omit<JobPosting, 'id' | 'datePosted' | 'applicants'>>
+  ) => {
+    setJobs(prevJobs =>
+      prevJobs.map(job =>
+        job.id === id ? { ...job, ...updates } : job
       )
     );
   };
@@ -77,6 +89,7 @@ export const JobProvider: React.FC<JobProviderProps> = ({ children }) => {
     addJob,
     deleteJob,
     toggleJobStatus,
+    updateJob,
   };
 
   return <JobContext.Provider value={value}>{children}</JobContext.Provider>;

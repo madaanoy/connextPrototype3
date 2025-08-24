@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import React from 'react';
-import { MoreVertical, Clock, DollarSign, Users } from 'lucide-react-native';
+import { Clock, DollarSign, Users, Pencil, Trash2 } from 'lucide-react-native';
 import { JobPosting, useJobs } from '../../context/JobOpeningContext';
 import { useRouter } from "expo-router";
 
@@ -28,30 +28,13 @@ export default function JobOpeningCard({ job }: JobOpeningCardProps) {
     return job.salaryMin ? `₱${job.salaryMin}+` : `Up to ₱${job.salaryMax}`;
   };
 
-  const handleMoreOptions = () => {
+  const handleDelete = () => {
     Alert.alert(
-      'Job Options',
-      'What would you like to do with this job posting?',
+      'Delete Job',
+      'Are you sure you want to delete this job posting?',
       [
         { text: 'Cancel', style: 'cancel' },
-        {
-          text: job.isActive ? 'Deactivate' : 'Activate',
-          onPress: () => toggleJobStatus(job.id),
-        },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => {
-            Alert.alert(
-              'Confirm Delete',
-              'Are you sure you want to delete this job posting?',
-              [
-                { text: 'Cancel', style: 'cancel' },
-                { text: 'Delete', style: 'destructive', onPress: () => deleteJob(job.id) },
-              ]
-            );
-          },
-        },
+        { text: 'Delete', style: 'destructive', onPress: () => deleteJob(job.id) },
       ]
     );
   };
@@ -81,9 +64,12 @@ export default function JobOpeningCard({ job }: JobOpeningCardProps) {
                 {job.jobType === 'full-time' ? 'Full-time' : 'Part-time'}
               </Text>
             </View>
-            <View className={`px-2 py-1 rounded-full ${
-              job.isActive ? 'bg-green-100' : 'bg-gray-100'
-            }`}>
+            <TouchableOpacity
+              className={`px-2 py-1 rounded-full ${
+                job.isActive ? 'bg-green-100' : 'bg-gray-100'
+              }`}
+              onPress={() => toggleJobStatus(job.id)}
+            >
               <Text 
                 className={`text-xs font-medium ${
                   job.isActive ? 'text-green-800' : 'text-gray-600'
@@ -92,16 +78,31 @@ export default function JobOpeningCard({ job }: JobOpeningCardProps) {
               >
                 {job.isActive ? 'Active' : 'Inactive'}
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
-        
-        <TouchableOpacity 
-          onPress={handleMoreOptions}
-          className="p-1 rounded-full active:bg-gray-100"
-        >
-          <MoreVertical size={20} color="#6B7280" />
-        </TouchableOpacity>
+
+        {/* Edit + Delete Buttons */}
+        <View className="flex-row space-x-2">
+          <TouchableOpacity 
+            onPress={() =>
+              router.push({
+                pathname: '/edit-opening',
+                params: { jobId: job.id },
+              })
+            }
+            className="p-2 rounded-full bg-blue-50 active:bg-blue-100"
+          >
+            <Pencil size={18} color="#2563EB" />
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            onPress={handleDelete}
+            className="p-2 rounded-full bg-red-50 active:bg-red-100"
+          >
+            <Trash2 size={18} color="#DC2626" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Description */}

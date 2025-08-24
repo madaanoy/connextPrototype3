@@ -19,11 +19,11 @@ export default function EditProfileScreen() {
 
          <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
             {/* Back + Title */}
-            <View className="flex-row items-center my-2 py-2">
+            <View className="flex-row items-center my-2 py-2 border-b border-gray-200">
                <TouchableOpacity onPress={() => router.back()} activeOpacity={0.8}>
                   <ChevronLeft size={28} color="#37424F" />
                </TouchableOpacity>
-               <Text style={[styles.title, { fontFamily: "Lexend-Bold" }]} className="px-2">
+               <Text style={[styles.title, { fontFamily: "Lexend-Bold" }]} className="px-2 text-2xl">
                   Edit Profile
                </Text>
             </View>
@@ -56,7 +56,7 @@ export default function EditProfileScreen() {
                   placeholder="M."
                   placeholderTextColor="#9AA4AF"
                   className="border border-gray-300 px-3 py-3 rounded-lg mt-2"
-                  style={{ width: 100}}
+                  style={{ width: 100 }}
                />
             </View>
 
@@ -66,7 +66,7 @@ export default function EditProfileScreen() {
 
                <View className="flex-row flex-wrap items-center">
                   <TouchableOpacity activeOpacity={0.8} className="px-5 py-3 mr-3 mb-3 rounded-lg" style={{ backgroundColor: "#6C63FF" }}>
-                     <Text style={{ fontFamily: "Poppins-Medium", color: "white"}}>Hospitality</Text>
+                     <Text style={{ fontFamily: "Poppins-Medium", color: "white" }}>Hospitality</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity activeOpacity={0.8} className="px-5 py-3 mr-3 mb-3 rounded-lg" style={{ backgroundColor: "#6C63FF" }}>
@@ -98,7 +98,7 @@ export default function EditProfileScreen() {
             <View className="my-2 py-2">
                <Text style={styles.label}>Email</Text>
                <TextInput
-                  placeholder="adnu@gmail.edu.ph"
+                  placeholder="juandelacruz@gmail.com"
                   placeholderTextColor="#9AA4AF"
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
       paddingBottom: 30,
    },
    title: {
-      fontSize: 24,
       color: "#37424F",
    },
    label: {
