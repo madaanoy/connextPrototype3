@@ -9,6 +9,7 @@ import { JobProspectsProvider } from './context/JobProspectsContext';
 
 import "../global.css";
 import { JobProvider } from './context/JobOpeningContext';
+import { UserProvider } from './context/UserContext';
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -28,16 +29,18 @@ export default function RootLayout() {
   }
 
   return (
-    <JobProvider>
-    <JobProspectsProvider>
-      <Stack initialRouteName="(employer)">
-        <Stack.Screen name="(common)" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(jobseeker)" options={{ headerShown: false }} />
-        <Stack.Screen name="(employer)" options={{ headerShown: false }} />
-        <Stack.Screen name='chat' options={{ headerShown: false }}></Stack.Screen>
-      </Stack>
-    </JobProspectsProvider>
-    </JobProvider>
+    <UserProvider>
+      <JobProvider>
+        <JobProspectsProvider>
+          <Stack initialRouteName="(employer)">
+            <Stack.Screen name="(common)" options={{ headerShown: false }} />
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="(jobseeker)" options={{ headerShown: false }} />
+            <Stack.Screen name="(employer)" options={{ headerShown: false }} />
+            <Stack.Screen name='chat' options={{ headerShown: false }}></Stack.Screen>
+          </Stack>
+        </JobProspectsProvider>
+      </JobProvider>
+    </UserProvider>
   );
 }

@@ -1,10 +1,291 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React from 'react';
+import {
+  Animated, Dimensions, PanResponder, Modal, Pressable,
+  SafeAreaView, ScrollView, TouchableOpacity, View, Text, ViewStyle
+} from 'react-native';
+import { Card } from 'react-native-paper';
+import { GraduationCap, MapPin, Expand, Minimize } from 'lucide-react-native';
 
-export default function ApplicantCard() {
+const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
+
+export type CardApplicant = {
+  id: string | number;
+  fullName: string;
+  degree?: string;
+  location?: string;
+  skills?: string[];
+  experience?: string;
+  contact_no?: string;
+  certifications?: string;
+};
+
+type Props = { applicants: CardApplicant[] };
+
+export default function ApplicantCard({ applicants }: Props) {
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+
+  const hasApplicants = applicants.length > 0;
+  const currentApplicant = hasApplicants ? applicants[currentIndex] : undefined;
+
+  // Bottom sheet
+  const maxHeightPercent = 0.8;
+  const sheetHeight = SCREEN_HEIGHT * maxHeightPercent;
+
+  const translateY = React.useRef(new Animated.Value(SCREEN_HEIGHT)).current;
+  const sheetPan = React.useRef(new Animated.Value(0)).current;
+
+  // Card swipe
+  const cardPan = React.useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+  const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
+  const cardOffset = React.useRef({ x: 0, y: 0 });
+
+  const rotate = cardPan.x.interpolate({
+    inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+    outputRange: ['-10deg', '0deg', '10deg'],
+    extrapolate: 'clamp',
+  });
+
+  const opacity = cardPan.x.interpolate({
+    inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+    outputRange: [0.7, 1, 0.7],
+    extrapolate: 'clamp',
+  });
+
+  const scale = cardPan.x.interpolate({
+    inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+    outputRange: [0.98, 1, 0.98],
+    extrapolate: 'clamp',
+  });
+
+  const onSwipeRight = (index: number) => {
+    // shortlist action
+    if (!hasApplicants) return;
+    setCurrentIndex((prev) => (prev + 1) % applicants.length);
+  };
+
+  const onSwipeLeft = (index: number) => {
+    // dismiss action
+    if (!hasApplicants) return;
+    setCurrentIndex((prev) => (prev + 1) % applicants.length);
+  };
+
+  const cardPanResponder = React.useMemo(
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => false,
+        onMoveShouldSetPanResponder: (_, g) =>
+          Math.abs(g.dx) > 5 && Math.abs(g.dx) > Math.abs(g.dy),
+        onPanResponderGrant: () => {
+          cardOffset.current = {
+            x: (cardPan.x as any)._value || 0,
+            y: (cardPan.y as any)._value || 0,
+          };
+          cardPan.setOffset(cardOffset.current);
+          cardPan.setValue({ x: 0, y: 0 });
+        },
+        onPanResponderMove: Animated.event([null, { dx: cardPan.x, dy: cardPan.y }], {
+          useNativeDriver: false,
+        }),
+        onPanResponderRelease: (_, g) => {
+          cardPan.flattenOffset();
+          const { dx, vx } = g;
+          const absDx = Math.abs(dx);
+
+          if (hasApplicants && (absDx > SWIPE_THRESHOLD || Math.abs(vx) > 0.8)) {
+            const toRight = dx > 0;
+            const toX = toRight ? SCREEN_WIDTH * 1.2 : -SCREEN_WIDTH * 1.2;
+
+            Animated.timing(cardPan, {
+              toValue: { x: toX, y: 0 },
+              duration: 220,
+              useNativeDriver: false,
+            }).start(() => {
+              if (toRight) onSwipeRight(currentIndex);
+              else onSwipeLeft(currentIndex);
+
+              cardPan.setValue({ x: 0, y: 0 });
+              cardOffset.current = { x: 0, y: 0 };
+            });
+          } else {
+            Animated.spring(cardPan, {
+              toValue: { x: 0, y: 0 },
+              friction: 6,
+              useNativeDriver: false,
+            }).start();
+          }
+        },
+      }),
+    [currentIndex, hasApplicants]
+  );
+
+  const sheetPanResponder = React.useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dy) > 5,
+      onPanResponderMove: Animated.event([null, { dy: sheetPan }], { useNativeDriver: false }),
+      onPanResponderRelease: (_, { dy, vy }) => {
+        if (dy > 120 || vy > 1.2) {
+          closeSheet();
+        } else {
+          Animated.spring(sheetPan, { toValue: 0, useNativeDriver: false }).start();
+        }
+      },
+    })
+  ).current;
+
+  const show = () => {
+    if (!hasApplicants) return;
+    setModalVisible(true);
+    Animated.timing(translateY, { toValue: 0, duration: 250, useNativeDriver: true }).start();
+  };
+
+  const closeSheet = () => {
+    Animated.timing(translateY, { toValue: SCREEN_HEIGHT, duration: 220, useNativeDriver: true })
+      .start(() => {
+        sheetPan.setValue(0);
+        setModalVisible(false);
+      });
+  };
+
+  const translateYStyle = { transform: [{ translateY: Animated.add(translateY, sheetPan) }] };
+
+  const cardAnimatedStyle: Animated.WithAnimatedObject<ViewStyle> = {
+    transform: [{ translateX: cardPan.x }, { translateY: cardPan.y }, { rotate }, { scale }],
+    opacity,
+  };
+
+  if (!hasApplicants) {
+    return (
+      <SafeAreaView className="flex-1 items-center justify-center">
+        <Text style={{ fontFamily: 'Poppins-Regular' }} className="text-gray-500">
+          No applicants yet.
+        </Text>
+      </SafeAreaView>
+    );
+  }
+
+  const skillsList = (currentApplicant?.skills ?? []).join(', ');
+
   return (
-    <View>
-      <Text>ApplicantCard</Text>
-    </View>
-  )
+    <SafeAreaView className="flex-1">
+      <Animated.View style={[{ margin: 10, borderRadius: 15 }, cardAnimatedStyle]} {...cardPanResponder.panHandlers}>
+        <Card style={{ borderRadius: 15, backgroundColor: '#6C63FF' }}>
+          <Card.Content>
+            <View className="flex-row items-center justify-center space-x-3">
+              <View className="ml-2">
+                <Text style={{ fontFamily: 'Lexend-Bold' }} className="text-white text-2xl">
+                  {currentApplicant?.fullName ?? 'Applicant'}
+                </Text>
+              </View>
+            </View>
+
+            <View className="py-4 px-2">
+              <View className="flex-row items-center space-x-2 mb-2">
+                <GraduationCap size={20} color={'white'} />
+                <Text style={{ fontFamily: 'Lexend-Regular' }} className="text-white text-lg ml-2">
+                  {currentApplicant?.degree ?? '—'}
+                </Text>
+              </View>
+
+              <View className="flex-row items-center space-x-2 mb-2">
+                <MapPin size={20} color={'white'} />
+                <Text style={{ fontFamily: 'Lexend-Medium' }} className="text-white text-lg ml-2">
+                  {currentApplicant?.location ?? '—'}
+                </Text>
+              </View>
+
+              <View className="border-b border-gray-300 my-5" />
+
+              <View>
+                <Text style={{ fontFamily: 'Lexend-Regular' }} className="text-white text-base">
+                  Skills: {skillsList.length ? skillsList : '—'}
+                </Text>
+              </View>
+
+              <View className="flex-row items-center justify-between py-3 mt-5">
+                <TouchableOpacity className="flex-row items-center" onPress={show}>
+                  <Text
+                    style={{ fontFamily: 'Lexend-Regular', textDecorationLine: 'underline' }}
+                    className="text-white"
+                  >
+                    Tap to view more
+                  </Text>
+                  <View className="pl-3">
+                    <Expand size={20} color={'white'} />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Card.Content>
+        </Card>
+      </Animated.View>
+
+      {/* Bottom Sheet */}
+      <Modal visible={modalVisible} transparent animationType="none" onRequestClose={closeSheet}>
+        <View className="flex-1 justify-end">
+          <Pressable
+            onPress={closeSheet}
+            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.45)' }}
+          />
+          <Animated.View
+            style={[
+              translateYStyle,
+              { height: sheetHeight - 100, backgroundColor: 'white', borderTopLeftRadius: 18, borderTopRightRadius: 18, overflow: 'hidden' },
+            ]}
+          >
+            <SafeAreaView className="flex-1">
+              <View {...sheetPanResponder.panHandlers} className="items-center pt-2 pb-1">
+                <View className="w-10 h-1.5 rounded-md bg-gray-300" />
+              </View>
+
+              <View className="flex-row items-center justify-center py-4 pb-2">
+                <Text style={{ fontFamily: 'Lexend-Bold', fontSize: 20 }}>
+                  {currentApplicant?.fullName ?? 'Applicant'}
+                </Text>
+                <TouchableOpacity onPress={closeSheet} className="absolute right-3 top-1 p-2">
+                  <Text className="text-lg text-gray-700">✕</Text>
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView contentContainerStyle={{ paddingHorizontal: 18, paddingBottom: 24 }}>
+                <Text style={{ fontFamily: 'Lexend-Medium', fontSize: 16 }} className="text-[#5b21b6] font-semibold mb-2">
+                  Degree / Educational Attainment
+                </Text>
+                <Text style={{ fontFamily: 'Poppins-Regular' }} className="mb-4">
+                  {currentApplicant?.degree ?? '—'}
+                </Text>
+
+                <Text style={{ fontFamily: 'Lexend-Medium', fontSize: 16 }} className="text-[#5b21b6] font-semibold mb-2">
+                  Experience
+                </Text>
+                <Text style={{ fontFamily: 'Poppins-Regular' }} className="mb-4">
+                  {currentApplicant?.experience ?? '—'}
+                </Text>
+
+                <Text style={{ fontFamily: 'Lexend-Medium', fontSize: 16 }} className="text-[#5b21b6] font-semibold mb-2">
+                  Technical Skills
+                </Text>
+                {(currentApplicant?.skills ?? []).map((skill, idx) => (
+                  <Text key={idx} style={{ fontFamily: 'Poppins-Regular' }} className="mb-2">• {skill}</Text>
+                ))}
+
+                <Text style={{ fontFamily: 'Lexend-Medium', fontSize: 16 }} className="text-[#5b21b6] font-semibold mb-2">
+                  Address
+                </Text>
+                <Text style={{fontFamily: 'Poppins-Regular' }} className="mb-2">{currentApplicant?.location ?? '—'}</Text>
+              </ScrollView>
+
+              <View className="flex-row justify-center py-3 border-t border-gray-200">
+                <TouchableOpacity onPress={closeSheet} className="flex-row items-center">
+                  <Text className="text-gray-800 font-bold px-2">Tap to view less</Text>
+                  <Minimize size={20} />
+                </TouchableOpacity>
+              </View>
+            </SafeAreaView>
+          </Animated.View>
+        </View>
+      </Modal>
+    </SafeAreaView>
+  );
 }

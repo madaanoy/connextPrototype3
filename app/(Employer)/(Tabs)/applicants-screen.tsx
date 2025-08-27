@@ -1,10 +1,13 @@
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+// applicants-screen.tsx
+import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import LogoAndNotif from '../../components/LogoAndNotif';
+import LogoAndNotif from '../../components/LogoAndNotif'
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useJobs } from '../../context/JobOpeningContext';
+import { useJobs } from '../../context/JobOpeningContext'
 import { ChevronLeft } from 'lucide-react-native';
+
+import ApplicantCard, { CardApplicant } from '../../components/employer/ApplicantCard' // adjust path
 
 export default function ApplicantsScreen() {
   const router = useRouter();
@@ -21,63 +24,62 @@ export default function ApplicantsScreen() {
     );
   }
 
+  // 🔹 Sample applicants (for demo only)
+  const sampleApplicants: CardApplicant[] = [
+    {
+      id: 1,
+      fullName: "Juan Dela Cruz",
+      degree: "Bachelor of Science in Information Technology",
+      location: "Naga City, Philippines",
+      skills: ["React Native", "JavaScript", "UI/UX"],
+      experience: "2 years as a Mobile Developer at TechCorp",
+    },
+    {
+      id: 2,
+      fullName: "Maria Santos",
+      degree: "Master of Business Administration",
+      location: "Quezon City, Philippines",
+      skills: ["Project Management", "Leadership", "Finance"],
+      experience: "5 years as a Business Analyst at FinServe",
+    },
+    {
+      id: 3,
+      fullName: "Pedro Ramirez",
+      degree: "Bachelor of Science in Hospitality Management",
+      location: "Cebu City, Philippines",
+      skills: ["Customer Service", "Event Planning", "Team Leadership"],
+      experience: "3 years in Hotel Operations at GrandStay Hotels",
+    },
+  ];
+
+  // Use only real applicants, no sample data
+  const cardApplicants: CardApplicant[] = job.applicants.map((a: any) => ({
+    id: a.id,
+    fullName: a.name,
+    degree: a.degree ?? "—",
+    location: a.location ?? "—",
+    skills: Array.isArray(a.skills) ? a.skills : [],
+    experience: a.experience ?? "—",
+  }));
+
   return (
     <SafeAreaView className="flex-1 bg-white">
-      {/* Top Header */}
       <LogoAndNotif />
 
-      {/* Title Row */}
+      {/* Header */}
       <View className="flex-row items-center px-4 py-2">
         <TouchableOpacity onPress={() => router.back()} className="mr-3">
           <ChevronLeft size={24} color="#37424F" />
         </TouchableOpacity>
-        <Text
-          style={{ fontFamily: 'Lexend-Bold' }}
-          className="text-2xl text-[#37424F]"
-        >
-          Your Applicants ({job.applicants.length})
+        <Text style={{ fontFamily: "Lexend-Bold" }} className="text-2xl text-[#37424F]">
+          Your Applicants ({cardApplicants.length})
         </Text>
       </View>
 
-      {/* Applicants List */}
-      {job.applicants.length === 0 ? (
-        <View className="flex-1 justify-center items-center">
-          <Text
-            className="text-gray-500"
-            style={{ fontFamily: 'Poppins-Regular' }}
-          >
-            No applicants yet.
-          </Text>
-        </View>
-      ) : (
-        <FlatList
-          data={job.applicants}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={{ padding: 16 }}
-          renderItem={({ item }) => (
-            <View className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-3">
-              <Text
-                style={{ fontFamily: 'Lexend-Medium' }}
-                className="text-gray-900 text-base"
-              >
-                {item.name}
-              </Text>
-              <Text
-                style={{ fontFamily: 'Poppins-Regular' }}
-                className="text-gray-600 text-sm"
-              >
-                {item.email}
-              </Text>
-              <Text
-                className="text-gray-400 text-xs mt-1"
-                style={{ fontFamily: 'Poppins-Regular' }}
-              >
-                Applied on {item.appliedAt.toLocaleDateString()}
-              </Text>
-            </View>
-          )}
-        />
-      )}
+      {/* Swipeable Applicant Card */}
+      <View style={{ flex: 1 }}>
+        <ApplicantCard applicants={cardApplicants} />
+      </View>
     </SafeAreaView>
   );
 }

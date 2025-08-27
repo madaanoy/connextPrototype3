@@ -24,11 +24,18 @@ interface JobFormProps {
     experience: string;
     salaryMin: string;
     salaryMax: string;
+    companyName?: string; // New field
+    location?: string;
+    skills?: string;
   };
   onSubmit: (formData: any) => void;
 }
 
-export default function JobForm({ mode, initialValues, onSubmit }: JobFormProps) {
+export default function JobForm({
+  mode,
+  initialValues,
+  onSubmit,
+}: JobFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState({
     jobTitle: initialValues?.jobTitle || "",
@@ -39,6 +46,9 @@ export default function JobForm({ mode, initialValues, onSubmit }: JobFormProps)
     experience: initialValues?.experience || "",
     salaryMin: initialValues?.salaryMin || "",
     salaryMax: initialValues?.salaryMax || "",
+    companyName: initialValues?.companyName || "", // New field
+    location: initialValues?.location || "",
+    skills: initialValues?.skills || ""
   });
 
   const [isSaving, setIsSaving] = useState(false);
@@ -101,6 +111,23 @@ export default function JobForm({ mode, initialValues, onSubmit }: JobFormProps)
             </Text>
           </View>
 
+          <View className="mb-6">
+            <Text
+              className="text-[#0B3D75] mb-3 text-base font-semibold"
+              style={{ fontFamily: "Lexend-SemiBold" }}
+            >
+              Company Name *
+            </Text>
+            <RNTextInput
+              value={formData.companyName}
+              onChangeText={(text) => handleInputChange("companyName", text)}
+              placeholder="e.g. Jollibee"
+              className="bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 text-base"
+              style={{ fontFamily: "Poppins-Regular" }}
+              placeholderTextColor="#9CA3AF"
+            />
+          </View>
+
           {/* Job Title */}
           <View className="mb-6">
             <Text
@@ -113,6 +140,24 @@ export default function JobForm({ mode, initialValues, onSubmit }: JobFormProps)
               value={formData.jobTitle}
               onChangeText={(text) => handleInputChange("jobTitle", text)}
               placeholder="e.g. Software Engineer"
+              className="bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 text-base"
+              style={{ fontFamily: "Poppins-Regular" }}
+              placeholderTextColor="#9CA3AF"
+            />
+          </View>
+
+          {/* Location */}
+          <View className="mb-6">
+            <Text
+              className="text-[#0B3D75] mb-3 text-base font-semibold"
+              style={{ fontFamily: "Lexend-SemiBold" }}
+            >
+              Location *
+            </Text>
+            <RNTextInput
+              value={formData.location}
+              onChangeText={(text) => handleInputChange("location", text)}
+              placeholder="e.g. Naga City"
               className="bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 text-base"
               style={{ fontFamily: "Poppins-Regular" }}
               placeholderTextColor="#9CA3AF"
@@ -170,6 +215,29 @@ export default function JobForm({ mode, initialValues, onSubmit }: JobFormProps)
             </View>
           </View>
 
+          {/* Skills Needed */}
+          <View className="mb-6">
+            <Text
+              className="text-[#0B3D75] mb-3 text-base font-semibold"
+              style={{ fontFamily: "Lexend-SemiBold" }}
+            >
+              Technical SKills *
+            </Text>
+            <RNTextInput
+              value={formData.skills}
+              onChangeText={(text) => handleInputChange("skills", text)}
+              placeholder="Describe the skills required..."
+              multiline
+              numberOfLines={4}
+              className="bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 text-base min-h-[100px]"
+              style={{
+                fontFamily: "Poppins-Regular",
+                textAlignVertical: "top",
+              }}
+              placeholderTextColor="#9CA3AF"
+            />
+          </View>
+
           {/* Description */}
           <View className="mb-6">
             <Text
@@ -185,7 +253,10 @@ export default function JobForm({ mode, initialValues, onSubmit }: JobFormProps)
               multiline
               numberOfLines={4}
               className="bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 text-base min-h-[100px]"
-              style={{ fontFamily: "Poppins-Regular", textAlignVertical: "top" }}
+              style={{
+                fontFamily: "Poppins-Regular",
+                textAlignVertical: "top",
+              }}
               placeholderTextColor="#9CA3AF"
             />
           </View>
@@ -200,12 +271,17 @@ export default function JobForm({ mode, initialValues, onSubmit }: JobFormProps)
             </Text>
             <RNTextInput
               value={formData.responsibilities}
-              onChangeText={(text) => handleInputChange("responsibilities", text)}
+              onChangeText={(text) =>
+                handleInputChange("responsibilities", text)
+              }
               placeholder="List responsibilities..."
               multiline
               numberOfLines={4}
               className="bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 text-base min-h-[100px]"
-              style={{ fontFamily: "Poppins-Regular", textAlignVertical: "top" }}
+              style={{
+                fontFamily: "Poppins-Regular",
+                textAlignVertical: "top",
+              }}
               placeholderTextColor="#9CA3AF"
             />
           </View>
@@ -328,8 +404,8 @@ export default function JobForm({ mode, initialValues, onSubmit }: JobFormProps)
               ? "Creating..."
               : "Saving..."
             : mode === "create"
-            ? "Create Job"
-            : "Save Changes"}
+              ? "Create Job"
+              : "Save Changes"}
         </Text>
       </TouchableOpacity>
     </SafeAreaView>

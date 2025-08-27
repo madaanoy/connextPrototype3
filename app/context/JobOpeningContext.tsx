@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
 export interface Applicant {
   id: string;
@@ -11,7 +11,7 @@ export interface Applicant {
 export interface JobPosting {
   id: string;
   jobTitle: string;
-  jobType: 'full-time' | 'part-time';
+  jobType: "full-time" | "part-time";
   description: string;
   responsibilities: string;
   education: string;
@@ -21,14 +21,23 @@ export interface JobPosting {
   datePosted: Date;
   isActive: boolean;
   applicants: Applicant[];
+  companyName?: string;
+  location?: string;
+  skills: string;
 }
 
 interface JobContextType {
   jobs: JobPosting[];
-  addJob: (job: Omit<JobPosting, 'id' | 'datePosted' | 'isActive' | 'applicants'>) => void;
+  addJob: (
+    job: Omit<JobPosting, "id" | "datePosted" | "isActive" | "applicants">
+  ) => void;
   deleteJob: (id: string) => void;
   toggleJobStatus: (id: string) => void;
-  updateJob: (id: string, updates: Partial<Omit<JobPosting, 'id' | 'datePosted' | 'applicants'>>) => void;
+  updateJob: (
+    id: string,
+    updates: Partial<Omit<JobPosting, "id" | "datePosted" | "applicants">>
+  ) => void;
+  addApplicant: (jobId: string, applicant: Applicant) => void;
 }
 
 const JobContext = createContext<JobContextType | undefined>(undefined);
@@ -36,7 +45,7 @@ const JobContext = createContext<JobContextType | undefined>(undefined);
 export const useJobs = () => {
   const context = useContext(JobContext);
   if (!context) {
-    throw new Error('useJobs must be used within a JobProvider');
+    throw new Error("useJobs must be used within a JobProvider");
   }
   return context;
 };
@@ -49,7 +58,7 @@ export const JobProvider: React.FC<JobProviderProps> = ({ children }) => {
   const [jobs, setJobs] = useState<JobPosting[]>([]);
 
   const addJob = (
-    jobData: Omit<JobPosting, 'id' | 'datePosted' | 'isActive' | 'applicants'>
+    jobData: Omit<JobPosting, "id" | "datePosted" | "isActive" | "applicants">
   ) => {
     const newJob: JobPosting = {
       ...jobData,
@@ -58,16 +67,16 @@ export const JobProvider: React.FC<JobProviderProps> = ({ children }) => {
       isActive: true,
       applicants: [],
     };
-    setJobs(prevJobs => [newJob, ...prevJobs]);
+    setJobs((prevJobs) => [newJob, ...prevJobs]);
   };
 
   const deleteJob = (id: string) => {
-    setJobs(prevJobs => prevJobs.filter(job => job.id !== id));
+    setJobs((prevJobs) => prevJobs.filter((job) => job.id !== id));
   };
 
   const toggleJobStatus = (id: string) => {
-    setJobs(prevJobs =>
-      prevJobs.map(job =>
+    setJobs((prevJobs) =>
+      prevJobs.map((job) =>
         job.id === id ? { ...job, isActive: !job.isActive } : job
       )
     );
@@ -75,11 +84,19 @@ export const JobProvider: React.FC<JobProviderProps> = ({ children }) => {
 
   const updateJob = (
     id: string,
-    updates: Partial<Omit<JobPosting, 'id' | 'datePosted' | 'applicants'>>
+    updates: Partial<Omit<JobPosting, "id" | "datePosted" | "applicants">>
   ) => {
-    setJobs(prevJobs =>
-      prevJobs.map(job =>
-        job.id === id ? { ...job, ...updates } : job
+    setJobs((prevJobs) =>
+      prevJobs.map((job) => (job.id === id ? { ...job, ...updates } : job))
+    );
+  };
+
+  const addApplicant = (jobId: string, applicant: Applicant) => {
+    setJobs((prevJobs) =>
+      prevJobs.map((job) =>
+        job.id === jobId
+          ? { ...job, applicants: [...job.applicants, applicant] }
+          : job
       )
     );
   };
@@ -90,6 +107,7 @@ export const JobProvider: React.FC<JobProviderProps> = ({ children }) => {
     deleteJob,
     toggleJobStatus,
     updateJob,
+    addApplicant,
   };
 
   return <JobContext.Provider value={value}>{children}</JobContext.Provider>;

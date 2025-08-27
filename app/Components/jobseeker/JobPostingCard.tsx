@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Animated,
@@ -12,187 +12,194 @@ import {
   View,
   Text,
   ViewStyle,
-} from 'react-native';
-import { Card } from 'react-native-paper';
-import companyLogo from '../../../assets/images/placeholderImage.png'
-import { BriefcaseBusiness, PhilippinePeso, MapPin, Expand, Minimize } from 'lucide-react-native';
-import { useJobProspects } from '../../context/JobProspectsContext';
+} from "react-native";
+import { Card } from "react-native-paper";
+import companyLogo from "../../../assets/images/placeholderImage.png";
+import {
+  BriefcaseBusiness,
+  PhilippinePeso,
+  MapPin,
+  Expand,
+  Minimize,
+} from "lucide-react-native";
+import { useJobProspects } from "../../context/JobProspectsContext";
+import {
+  useJobs,
+  JobPosting as EmployerJobPosting,
+} from "../../context/JobOpeningContext";
+import { useUser } from "../../context/UserContext";
 
-const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
+const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get("window");
 
-// Job postings data
-const jobPostings = [
+// Helper function to convert EmployerJobPosting to JobProspects format
+// Helper function to convert EmployerJobPosting to JobProspects format
+const convertToJobProspectsFormat = (
+  employerJob: EmployerJobPosting,
+  index: number
+) => {
+  // ensure id is a number
+  const idNum =
+    typeof employerJob.id === "number"
+      ? employerJob.id
+      : parseInt(String(employerJob.id || index), 10);
+
+  const salary =
+    employerJob.salaryMin && employerJob.salaryMax
+      ? `PHP ${employerJob.salaryMin} - ${employerJob.salaryMax}/month`
+      : employerJob.salaryMin
+        ? `PHP ${employerJob.salaryMin}+/month`
+        : employerJob.salaryMax
+          ? `Up to PHP ${employerJob.salaryMax}/month`
+          : "Salary not disclosed";
+
+  // Calculate match percentage based on job details (simple algorithm)
+  const calculateMatch = () => {
+    let score = 70; // Base score
+    if (employerJob.education) score += 5;
+    if (employerJob.experience) score += 10;
+    if (employerJob.salaryMin) score += 5;
+    if ((employerJob.description || "").length > 100) score += 5;
+    if ((employerJob.responsibilities || "").length > 100) score += 5;
+    return Math.min(95, score);
+  };
+
+  const matchPercentage = calculateMatch();
+
+  return {
+    id: idNum,
+    company: employerJob.companyName ?? "Unknown Company",
+    position: employerJob.jobTitle ?? "Job title not specified",
+    salary,
+    location: employerJob.location ?? "Location not specified",
+    match: `${matchPercentage}% match for you`,
+    description: employerJob.description ?? "No description provided",
+    modalTitle: employerJob.jobTitle ?? "Job details",
+    modalMatch: `${matchPercentage}% match for you!`,
+    qualifications: employerJob.education
+      ? [employerJob.education]
+      : ["Requirements not specified"],
+
+    responsibilities: Array.isArray(employerJob.responsibilities)
+      ? employerJob.responsibilities
+      : typeof employerJob.responsibilities === "string"
+        ? employerJob.responsibilities
+            .split("\n")
+            .filter((r: string) => r.trim())
+        : [],
+
+    skills: Array.isArray(employerJob.skills)
+      ? employerJob.skills
+      : typeof employerJob.skills === "string"
+        ? employerJob.skills.split(",").map((s) => s.trim())
+        : [],
+
+    jobType: employerJob.jobType
+      ? [
+          employerJob.jobType === "full-time"
+            ? "Full-time position"
+            : employerJob.jobType === "part-time"
+              ? "Part-time position"
+              : "Job type not specified",
+          "8-hour shifts",
+          "Flexible schedule",
+        ]
+      : ["Job type not specified"],
+
+    experience:
+      employerJob.experience ?? "Experience requirements not specified",
+  };
+};
+
+// Static job postings (fallback when no employer jobs exist)
+const staticJobPostings = [
   {
-    id: 1,
+    id: 1001,
     company: "Jollibee",
     position: "Clean Up Crew",
     salary: "PHP 40,000 - 55,000/month",
     location: "Ateneo Ave, Naga City, 4400",
     match: "80% match for you",
-    description: "The Cleanup Crew Member is responsible for maintaining a clean and safe environment in the Jollibee restaurant.\n\nThis includes cleaning dining areas, restrooms, kitchen spaces, and outdoor areas, ensuring that high standards of hygiene and safety are met throughout the restaurant.",
+    description:
+      "The Cleanup Crew Member is responsible for maintaining a clean and safe environment in the Jollibee restaurant.\n\nThis includes cleaning dining areas, restrooms, kitchen spaces, and outdoor areas, ensuring that high standards of hygiene and safety are met throughout the restaurant.",
     modalTitle: "Clean Up Crew",
     modalMatch: "80% match for you!",
     qualifications: [
       "High school diploma or equivalent",
       "Physical ability to lift up to 25kg",
-      "Attention to detail and cleanliness"
+      "Attention to detail and cleanliness",
     ],
     responsibilities: [
       "Clean dining areas and restrooms",
       "Sanitize kitchen equipment",
-      "Maintain outdoor cleanliness"
+      "Maintain outdoor cleanliness",
     ],
-    skills: [
-      "Time management",
-      "Physical stamina",
-      "Team collaboration"
-    ],
-    jobType: [
-      "Full-time position",
-      "8-hour shifts",
-      "Rotating schedule"
-    ],
-    experience: "No experience required."
+    skills: ["Time management", "Physical stamina", "Team collaboration"],
+    jobType: ["Full-time position", "8-hour shifts", "Rotating schedule"],
+    experience: "No experience required.",
   },
   {
-    id: 2,
+    id: 1002,
     company: "McDonald's",
     position: "Service Crew",
     salary: "PHP 35,000 - 50,000/month",
     location: "SM City Naga, Triangulo, Naga City",
     match: "92% match for you",
-    description: "Join our team as a Service Crew member where you'll be the face of McDonald's, serving customers with a smile and ensuring their dining experience is exceptional.\n\nYou'll take orders, prepare food, and maintain the highest standards of customer service in our fast-paced environment.",
+    description:
+      "Join our team as a Service Crew member where you'll be the face of McDonald's, serving customers with a smile and ensuring their dining experience is exceptional.\n\nYou'll take orders, prepare food, and maintain the highest standards of customer service in our fast-paced environment.",
     modalTitle: "Service Crew",
     modalMatch: "92% match for you!",
     qualifications: [
       "High school graduate",
       "Good communication skills",
-      "Customer service orientation"
+      "Customer service orientation",
     ],
     responsibilities: [
       "Take customer orders accurately",
       "Prepare and serve food items",
-      "Handle cash transactions"
+      "Handle cash transactions",
     ],
-    skills: [
-      "Communication skills",
-      "Multitasking ability",
-      "Cash handling"
-    ],
-    jobType: [
-      "Full-time/Part-time",
-      "Flexible shifts",
-      "Weekend availability"
-    ],
-    experience: "Fresh graduates welcome."
+    skills: ["Communication skills", "Multitasking ability", "Cash handling"],
+    jobType: ["Full-time/Part-time", "Flexible shifts", "Weekend availability"],
+    experience: "Fresh graduates welcome.",
   },
-  {
-    id: 3,
-    company: "KFC",
-    position: "Kitchen Staff",
-    salary: "PHP 38,000 - 52,000/month",
-    location: "Magsaysay Ave, Naga City, 4400",
-    match: "75% match for you",
-    description: "Be part of KFC's kitchen team where you'll prepare our world-famous chicken and other menu items following strict quality and safety standards.\n\nThis role involves food preparation, cooking, and maintaining kitchen cleanliness while working in a fast-paced team environment.",
-    modalTitle: "Kitchen Staff",
-    modalMatch: "75% match for you!",
-    qualifications: [
-      "Food safety certification preferred",
-      "Ability to work under pressure",
-      "Basic cooking knowledge"
-    ],
-    responsibilities: [
-      "Prepare chicken and menu items",
-      "Follow food safety protocols",
-      "Maintain kitchen equipment"
-    ],
-    skills: [
-      "Food preparation",
-      "Equipment operation",
-      "Safety compliance"
-    ],
-    jobType: [
-      "Full-time position",
-      "Split shifts available",
-      "Holiday work required"
-    ],
-    experience: "1-2 years kitchen experience preferred."
-  },
-  {
-    id: 4,
-    company: "Starbucks",
-    position: "Barista",
-    salary: "PHP 45,000 - 60,000/month",
-    location: "Robinsons Place Naga, Naga City",
-    match: "88% match for you",
-    description: "Create the Starbucks experience for our customers by crafting handcrafted beverages and providing exceptional customer service in our welcoming café environment.\n\nYou'll be trained to prepare a variety of coffee drinks while building meaningful connections with our customers.",
-    modalTitle: "Barista",
-    modalMatch: "88% match for you!",
-    qualifications: [
-      "College level or graduate",
-      "Excellent interpersonal skills",
-      "Willingness to learn coffee craft"
-    ],
-    responsibilities: [
-      "Prepare coffee and specialty drinks",
-      "Provide exceptional customer service",
-      "Maintain store cleanliness"
-    ],
-    skills: [
-      "Coffee preparation",
-      "Customer interaction",
-      "Product knowledge"
-    ],
-    jobType: [
-      "Full-time opportunity",
-      "Morning/evening shifts",
-      "Benefits included"
-    ],
-    experience: "Barista experience is a plus but not required."
-  },
-  {
-    id: 5,
-    company: "Chowking",
-    position: "Cashier",
-    salary: "PHP 32,000 - 45,000/month",
-    location: "Central Business District, Naga City",
-    match: "95% match for you",
-    description: "Handle customer transactions with accuracy and efficiency while providing friendly service that represents the Chowking brand.\n\nYou'll process orders, handle payments, and ensure every customer leaves satisfied with their dining experience.",
-    modalTitle: "Cashier",
-    modalMatch: "95% match for you!",
-    qualifications: [
-      "High school diploma required",
-      "Strong numerical skills",
-      "Customer service experience"
-    ],
-    responsibilities: [
-      "Process customer orders",
-      "Handle cash and card payments",
-      "Maintain accurate transactions"
-    ],
-    skills: [
-      "Cash handling",
-      "POS system operation",
-      "Customer relations"
-    ],
-    jobType: [
-      "Full-time position",
-      "6-day work week",
-      "Performance incentives"
-    ],
-    experience: "Cashier experience preferred but not required."
-  }
 ];
 
 export default function JobPostingCard() {
   const { saveJob } = useJobProspects();
+  const { jobs: employerJobs, addApplicant } = useJobs();
+  const { user } = useUser();
   const [modalVisible, setModalVisible] = React.useState(false);
   const [currentJobIndex, setCurrentJobIndex] = React.useState(0);
+
+  // Convert employer jobs to job prospects format and combine with static jobs
+  const allJobPostings = React.useMemo(() => {
+    const activeEmployerJobs = employerJobs
+      .filter((job) => job.isActive) // Only show active jobs
+      .map((job, index) => convertToJobProspectsFormat(job, index));
+
+    // Combine employer jobs with static jobs
+    return [...activeEmployerJobs, ...staticJobPostings];
+  }, [employerJobs]);
+
   const show = () => setModalVisible(true);
   const hide = () => setModalVisible(false);
 
   // Get current job posting
-  const currentJob = jobPostings[currentJobIndex];
+  const currentJob = allJobPostings[currentJobIndex];
+
+  // If no jobs available, show placeholder
+  if (!currentJob) {
+    return (
+      <SafeAreaView className="flex-1 justify-center items-center">
+        <Text
+          style={{ fontFamily: "Lexend-Regular" }}
+          className="text-gray-500 text-lg"
+        >
+          No job postings available
+        </Text>
+      </SafeAreaView>
+    );
+  }
 
   // Bottom sheet config
   const maxHeightPercent = 0.8;
@@ -211,116 +218,163 @@ export default function JobPostingCard() {
   // animated styles for visual feedback
   const rotate = cardPan.x.interpolate({
     inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
-    outputRange: ['-10deg', '0deg', '10deg'],
-    extrapolate: 'clamp',
+    outputRange: ["-10deg", "0deg", "10deg"],
+    extrapolate: "clamp",
   });
 
   const opacity = cardPan.x.interpolate({
     inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
     outputRange: [0.7, 1, 0.7],
-    extrapolate: 'clamp',
+    extrapolate: "clamp",
   });
 
   const scale = cardPan.x.interpolate({
     inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
     outputRange: [0.98, 1, 0.98],
-    extrapolate: 'clamp',
+    extrapolate: "clamp",
   });
 
-  // callbacks for swipe actions - now cycles through job postings
-  const onSwipeRight = React.useCallback((jobIndex: number) => {
-    // Get the job at the specified index
-    const jobToSave = jobPostings[jobIndex];
-    console.log('Swiped RIGHT - Liked job:', jobToSave.company, jobToSave.position, 'Index:', jobIndex);
-    saveJob(jobToSave);
+  // callbacks for swipe actions
+  const onSwipeRight = React.useCallback(
+    (jobIndex: number) => {
+      const jobToSave = allJobPostings[jobIndex];
+      console.log(
+        "Swiped RIGHT - Liked job:",
+        jobToSave.company,
+        jobToSave.position,
+        "Index:",
+        jobIndex
+      );
+      saveJob(jobToSave);
 
-    // Move to next job posting immediately
-    setCurrentJobIndex((prevIndex) => (prevIndex + 1) % jobPostings.length);
-  }, [saveJob]);
+      // Create applicant object
+      if (!user) {
+        console.log("User not logged in - cannot create applicant");
+        return;
+      }
 
-  const onSwipeLeft = React.useCallback((jobIndex: number) => {
-    // Get the job at the specified index
-    const jobToDismiss = jobPostings[jobIndex];
-    console.log('Swiped LEFT - Dismissed job:', jobToDismiss.company, jobToDismiss.position, 'Index:', jobIndex);
+      const applicant = {
+        id: Date.now().toString(),
+        name: `${user.firstName} ${user.lastName}`,
+        email: user.email,
+        appliedAt: new Date(),
+      };
 
-    // Move to next job posting immediately
-    setCurrentJobIndex((prevIndex) => (prevIndex + 1) % jobPostings.length);
-  }, []);
+      // Only add applicant if this is an employer-created job (ID < 1000)
+      if (jobToSave.id < 1000) {
+        addApplicant(jobToSave.id.toString(), applicant);
+      }
 
-  // Add useEffect to track index changes and ensure proper re-render
+      // Move to next job posting
+      setCurrentJobIndex(
+        (prevIndex) => (prevIndex + 1) % allJobPostings.length
+      );
+    },
+    [saveJob, addApplicant, allJobPostings, user]
+  );
+
+  const onSwipeLeft = React.useCallback(
+    (jobIndex: number) => {
+      const jobToDismiss = allJobPostings[jobIndex];
+      console.log(
+        "Swiped LEFT - Dismissed job:",
+        jobToDismiss.company,
+        jobToDismiss.position,
+        "Index:",
+        jobIndex
+      );
+
+      // Move to next job posting
+      setCurrentJobIndex(
+        (prevIndex) => (prevIndex + 1) % allJobPostings.length
+      );
+    },
+    [allJobPostings]
+  );
+
+  // Add useEffect to track index changes
   React.useEffect(() => {
-    console.log('Current job index:', currentJobIndex);
-    console.log('Current job:', jobPostings[currentJobIndex]?.company);
-    console.log('Full job details:', jobPostings[currentJobIndex]);
-  }, [currentJobIndex]);
+    console.log("Current job index:", currentJobIndex);
+    console.log("Current job:", allJobPostings[currentJobIndex]?.company);
+    console.log("Total jobs available:", allJobPostings.length);
+  }, [currentJobIndex, allJobPostings]);
 
   // PanResponder for the card (horizontal)
   const cardPanResponder = React.useMemo(
-    () => PanResponder.create({
-      onStartShouldSetPanResponder: () => false,
-      onMoveShouldSetPanResponder: (_, gestureState) =>
-        Math.abs(gestureState.dx) > 5 && Math.abs(gestureState.dx) > Math.abs(gestureState.dy),
-      onPanResponderGrant: () => {
-        // Store the current offset and reset the animated value
-        cardOffset.current = {
-          x: (cardPan.x as any)._value || 0,
-          y: (cardPan.y as any)._value || 0,
-        };
-        cardPan.setOffset(cardOffset.current);
-        cardPan.setValue({ x: 0, y: 0 });
-      },
-      onPanResponderMove: Animated.event([null, { dx: cardPan.x, dy: cardPan.y }], { useNativeDriver: false }),
-      onPanResponderRelease: (_, gestureState) => {
-        cardPan.flattenOffset();
-        const { dx, vx } = gestureState;
-        const absDx = Math.abs(dx);
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => false,
+        onMoveShouldSetPanResponder: (_, gestureState) =>
+          Math.abs(gestureState.dx) > 5 &&
+          Math.abs(gestureState.dx) > Math.abs(gestureState.dy),
+        onPanResponderGrant: () => {
+          cardOffset.current = {
+            x: (cardPan.x as any)._value || 0,
+            y: (cardPan.y as any)._value || 0,
+          };
+          cardPan.setOffset(cardOffset.current);
+          cardPan.setValue({ x: 0, y: 0 });
+        },
+        onPanResponderMove: Animated.event(
+          [null, { dx: cardPan.x, dy: cardPan.y }],
+          { useNativeDriver: false }
+        ),
+        onPanResponderRelease: (_, gestureState) => {
+          cardPan.flattenOffset();
+          const { dx, vx } = gestureState;
+          const absDx = Math.abs(dx);
 
-        // If swipe passed threshold or was fast, slide out
-        if (absDx > SWIPE_THRESHOLD || Math.abs(vx) > 0.8) {
-          const toRight = dx > 0;
-          const toX = toRight ? SCREEN_WIDTH * 1.2 : -SCREEN_WIDTH * 1.2;
+          if (absDx > SWIPE_THRESHOLD || Math.abs(vx) > 0.8) {
+            const toRight = dx > 0;
+            const toX = toRight ? SCREEN_WIDTH * 1.2 : -SCREEN_WIDTH * 1.2;
 
-          Animated.timing(cardPan, {
-            toValue: { x: toX, y: 0 },
-            duration: 220,
-            useNativeDriver: false,
-          }).start(() => {
-            // trigger action with the current index directly, then reset position for next card
-            if (toRight) onSwipeRight(currentJobIndex);
-            else onSwipeLeft(currentJobIndex);
+            Animated.timing(cardPan, {
+              toValue: { x: toX, y: 0 },
+              duration: 220,
+              useNativeDriver: false,
+            }).start(() => {
+              if (toRight) onSwipeRight(currentJobIndex);
+              else onSwipeLeft(currentJobIndex);
 
-            // Reset position immediately after action
-            cardPan.setValue({ x: 0, y: 0 });
-            cardOffset.current = { x: 0, y: 0 };
-          });
-        } else {
-          // return to center smoothly
+              cardPan.setValue({ x: 0, y: 0 });
+              cardOffset.current = { x: 0, y: 0 };
+            });
+          } else {
+            Animated.spring(cardPan, {
+              toValue: { x: 0, y: 0 },
+              friction: 6,
+              useNativeDriver: false,
+            }).start();
+          }
+        },
+        onPanResponderTerminate: () => {
           Animated.spring(cardPan, {
             toValue: { x: 0, y: 0 },
             friction: 6,
             useNativeDriver: false,
           }).start();
-        }
-      },
-      onPanResponderTerminate: () => {
-        // ensure it returns to center if interrupted
-        Animated.spring(cardPan, { toValue: { x: 0, y: 0 }, friction: 6, useNativeDriver: false }).start();
-      },
-    }),
-    [currentJobIndex, onSwipeRight, onSwipeLeft] // Include dependencies so it updates with currentJobIndex
+        },
+      }),
+    [currentJobIndex, onSwipeRight, onSwipeLeft]
   );
 
   // PanResponder for the bottom sheet (vertical)
   const sheetPanResponder = React.useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => false,
-      onMoveShouldSetPanResponder: (_, gestureState) => Math.abs(gestureState.dy) > 5,
-      onPanResponderMove: Animated.event([null, { dy: sheetPan }], { useNativeDriver: false }),
+      onMoveShouldSetPanResponder: (_, gestureState) =>
+        Math.abs(gestureState.dy) > 5,
+      onPanResponderMove: Animated.event([null, { dy: sheetPan }], {
+        useNativeDriver: false,
+      }),
       onPanResponderRelease: (_, { dy, vy }) => {
         if (dy > 120 || vy > 1.2) {
           closeSheet();
         } else {
-          Animated.spring(sheetPan, { toValue: 0, useNativeDriver: false }).start();
+          Animated.spring(sheetPan, {
+            toValue: 0,
+            useNativeDriver: false,
+          }).start();
         }
       },
     })
@@ -341,7 +395,6 @@ export default function JobPostingCard() {
         useNativeDriver: true,
       }).start(() => sheetPan.setValue(0));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalVisible]);
 
   function closeSheet() {
@@ -355,7 +408,9 @@ export default function JobPostingCard() {
     });
   }
 
-  const translateYStyle = { transform: [{ translateY: Animated.add(translateY, sheetPan) }] };
+  const translateYStyle = {
+    transform: [{ translateY: Animated.add(translateY, sheetPan) }],
+  };
 
   // card animated style
   const cardAnimatedStyle: Animated.WithAnimatedObject<ViewStyle> = {
@@ -372,22 +427,29 @@ export default function JobPostingCard() {
     <SafeAreaView className="flex-1">
       {/* Wrap original Card in an Animated.View that handles horizontal swipe */}
       <Animated.View
-        style={[
-          { margin: 10, borderRadius: 15 },
-          cardAnimatedStyle,
-        ]}
+        style={[{ margin: 10, borderRadius: 15 }, cardAnimatedStyle]}
         {...cardPanResponder.panHandlers}
       >
-        <Card style={{ borderRadius: 15, backgroundColor: '#6C63FF' }}>
+        <Card style={{ borderRadius: 15, backgroundColor: "#6C63FF" }}>
           <Card.Content>
             {/* Row: logo + posted by */}
             <View className="flex-row items-center space-x-3">
-              <Image source={companyLogo} className="w-12 h-12 rounded-full" style={{ resizeMode: 'cover' }} />
+              <Image
+                source={companyLogo}
+                className="w-12 h-12 rounded-full"
+                style={{ resizeMode: "cover" }}
+              />
               <View className="ml-2">
-                <Text style={{ fontFamily: 'Lexend-Bold' }} className="text-white text-xs">
+                <Text
+                  style={{ fontFamily: "Lexend-Bold" }}
+                  className="text-white text-xs"
+                >
                   Posted by:
                 </Text>
-                <Text style={{ fontFamily: 'Lexend-Bold' }} className="text-white text-2xl">
+                <Text
+                  style={{ fontFamily: "Lexend-Bold" }}
+                  className="text-white text-2xl"
+                >
                   {currentJob.company}
                 </Text>
               </View>
@@ -395,22 +457,31 @@ export default function JobPostingCard() {
 
             <View className="py-4 px-2">
               <View className="flex-row items-center space-x-2 mb-2">
-                <BriefcaseBusiness size={20} color={'white'} />
-                <Text style={{ fontFamily: 'Lexend-Bold' }} className="text-white text-xl ml-2">
+                <BriefcaseBusiness size={20} color={"white"} />
+                <Text
+                  style={{ fontFamily: "Lexend-Bold" }}
+                  className="text-white text-xl ml-2"
+                >
                   {currentJob.position}
                 </Text>
               </View>
 
               <View className="flex-row items-center space-x-2 mb-2">
-                <PhilippinePeso size={20} color={'white'} />
-                <Text style={{ fontFamily: 'Lexend-Bold' }} className="text-white text-lg ml-2">
+                <PhilippinePeso size={20} color={"white"} />
+                <Text
+                  style={{ fontFamily: "Lexend-Bold" }}
+                  className="text-white text-lg ml-2"
+                >
                   {currentJob.salary}
                 </Text>
               </View>
 
               <View className="flex-row items-center space-x-2 mb-2">
-                <MapPin size={20} color={'white'} />
-                <Text style={{ fontFamily: 'Lexend-Medium' }} className="text-white text-lg ml-2">
+                <MapPin size={20} color={"white"} />
+                <Text
+                  style={{ fontFamily: "Lexend-Medium" }}
+                  className="text-white text-lg ml-2"
+                >
                   {currentJob.location}
                 </Text>
               </View>
@@ -418,26 +489,38 @@ export default function JobPostingCard() {
               <View className="border-b border-gray-300 my-5" />
 
               <View>
-                <Text style={{ fontFamily: 'Lexend-Regular' }} className="text-white text-base text-justify">
+                <Text
+                  style={{ fontFamily: "Lexend-Regular" }}
+                  className="text-white text-base text-justify"
+                >
                   {currentJob.description}
                 </Text>
               </View>
 
               <View className="flex-row items-center justify-evenly py-3 mt-5">
-                <Text style={{ fontFamily: 'Lexend-Regular' }} className="px-3 py-2 bg-slate-100 rounded-xl text-[#1572DB]">
+                <Text
+                  style={{ fontFamily: "Lexend-Regular" }}
+                  className="px-3 py-2 bg-slate-100 rounded-xl text-[#1572DB]"
+                >
                   {currentJob.match}
                 </Text>
 
-                <TouchableOpacity className="flex-row items-center" onPress={show}>
+                <TouchableOpacity
+                  className="flex-row items-center"
+                  onPress={show}
+                >
                   <Text
-                    style={{ fontFamily: 'Lexend-Regular', textDecorationLine: 'underline' }}
+                    style={{
+                      fontFamily: "Lexend-Regular",
+                      textDecorationLine: "underline",
+                    }}
                     className="text-white"
                   >
                     Tap to view more
                   </Text>
 
                   <View className="pl-3">
-                    <Expand size={20} color={'white'} />
+                    <Expand size={20} color={"white"} />
                   </View>
                 </TouchableOpacity>
               </View>
@@ -446,19 +529,24 @@ export default function JobPostingCard() {
         </Card>
       </Animated.View>
 
-      {/* Bottom Sheet Modal (NativeWind styling) */}
-      <Modal visible={modalVisible} transparent animationType="none" onRequestClose={closeSheet}>
+      {/* Bottom Sheet Modal */}
+      <Modal
+        visible={modalVisible}
+        transparent
+        animationType="none"
+        onRequestClose={closeSheet}
+      >
         <View className="flex-1 justify-end">
           {/* Backdrop */}
           <Pressable
             onPress={closeSheet}
             style={{
-              position: 'absolute',
+              position: "absolute",
               top: 0,
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundColor: 'rgba(0,0,0,0.45)',
+              backgroundColor: "rgba(0,0,0,0.45)",
             }}
           />
 
@@ -467,52 +555,86 @@ export default function JobPostingCard() {
               translateYStyle,
               {
                 height: sheetHeight - 100,
-                backgroundColor: 'white',
+                backgroundColor: "white",
                 borderTopLeftRadius: 18,
                 borderTopRightRadius: 18,
-                overflow: 'hidden',
+                overflow: "hidden",
               },
             ]}
           >
             <SafeAreaView className="flex-1">
               {/* Drag handle */}
-              <View {...sheetPanResponder.panHandlers} className="items-center pt-2 pb-1">
+              <View
+                {...sheetPanResponder.panHandlers}
+                className="items-center pt-2 pb-1"
+              >
                 <View className="w-10 h-1.5 rounded-md bg-gray-300" />
               </View>
 
               {/* Title row */}
               <View className="flex-row items-center justify-center py-4 pb-2">
-                <Text style={{ fontFamily: 'Lexend-Bold', fontSize: 20 }}>{currentJob.modalTitle}</Text>
+                <Text style={{ fontFamily: "Lexend-Bold", fontSize: 20 }}>
+                  {currentJob.modalTitle}
+                </Text>
 
-                <TouchableOpacity onPress={closeSheet} className="absolute right-3 top-1 p-2">
+                <TouchableOpacity
+                  onPress={closeSheet}
+                  className="absolute right-3 top-1 p-2"
+                >
                   <Text className="text-lg text-gray-700">✕</Text>
                 </TouchableOpacity>
               </View>
 
               {/* Scrollable content */}
-              <ScrollView contentContainerStyle={{ paddingHorizontal: 18, paddingBottom: 24 }}>
-                <Text style={{ fontFamily: 'Lexend-Medium', marginBottom: 6, fontSize: 14 }} className="text-center py-2">
+              <ScrollView
+                contentContainerStyle={{
+                  paddingHorizontal: 18,
+                  paddingBottom: 24,
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Lexend-Medium",
+                    marginBottom: 6,
+                    fontSize: 14,
+                  }}
+                  className="text-center py-2"
+                >
                   Posted by: {currentJob.company}
                 </Text>
 
                 <View className="flex-row justify-between space-x-4">
                   <View className="flex-1 pr-2">
-                    <Text style={{ fontFamily: 'Lexend-Medium', fontSize: 16 }} className="text-[#5b21b6] font-semibold mb-2">
+                    <Text
+                      style={{ fontFamily: "Lexend-Medium", fontSize: 16 }}
+                      className="text-[#5b21b6] font-semibold mb-2"
+                    >
                       Qualifications
                     </Text>
 
                     {currentJob.qualifications.map((qual, index) => (
-                      <Text style={{ fontFamily: 'Poppins-Regular' }} key={index} className="my-2">• {qual}</Text>
+                      <Text
+                        style={{ fontFamily: "Poppins-Regular" }}
+                        key={index}
+                        className="my-2"
+                      >
+                        • {qual}
+                      </Text>
                     ))}
                   </View>
 
                   <View className="flex-1 pl-2">
-                    <Text style={{ fontFamily: 'Lexend-Medium', fontSize: 16 }} className="text-[#5b21b6] font-semibold mb-2">
+                    <Text
+                      style={{ fontFamily: "Lexend-Medium", fontSize: 16 }}
+                      className="text-[#5b21b6] font-semibold mb-2"
+                    >
                       Key Responsibilities
                     </Text>
                     {currentJob.responsibilities.map((resp, index) => (
                       <View key={index} className="my-2">
-                        <Text style={{ fontFamily: 'Poppins-Regular' }}>• {resp}</Text>
+                        <Text style={{ fontFamily: "Poppins-Regular" }}>
+                          • {resp}
+                        </Text>
                       </View>
                     ))}
                   </View>
@@ -522,22 +644,36 @@ export default function JobPostingCard() {
 
                 <View className="flex-row justify-between space-x-4">
                   <View className="flex-1 pr-2">
-                    <Text style={{ fontFamily: 'Lexend-Medium', fontSize: 16 }} className="text-[#5b21b6] font-semibold mb-2">
+                    <Text
+                      style={{ fontFamily: "Lexend-Medium", fontSize: 16 }}
+                      className="text-[#5b21b6] font-semibold mb-2"
+                    >
                       Skills
                     </Text>
 
-                    {currentJob.skills.map((skill, index) => (
-                      <Text style={{ fontFamily: 'Poppins-Regular' }} key={index} className="my-2">• {skill}</Text>
+                    {currentJob.skills.map((skill: string, index: number) => (
+                      <Text
+                        style={{ fontFamily: "Poppins-Regular" }}
+                        key={index}
+                        className="my-2"
+                      >
+                        • {skill}
+                      </Text>
                     ))}
                   </View>
 
                   <View className="flex-1 pl-2">
-                    <Text style={{ fontFamily: 'Lexend-Medium', fontSize: 16 }} className="text-[#5b21b6] font-semibold mb-2">
+                    <Text
+                      style={{ fontFamily: "Lexend-Medium", fontSize: 16 }}
+                      className="text-[#5b21b6] font-semibold mb-2"
+                    >
                       Job Type
                     </Text>
                     {currentJob.jobType.map((type, index) => (
                       <View key={index} className="my-2">
-                        <Text style={{ fontFamily: 'Poppins-Regular' }}>• {type}</Text>
+                        <Text style={{ fontFamily: "Poppins-Regular" }}>
+                          • {type}
+                        </Text>
                       </View>
                     ))}
                   </View>
@@ -545,10 +681,18 @@ export default function JobPostingCard() {
 
                 <View className="h-4" />
 
-                <Text style={{ fontFamily: 'Lexend-Medium', fontSize: 16 }} className="text-[#5b21b6] font-semibold mt-1 mb-2">
+                <Text
+                  style={{ fontFamily: "Lexend-Medium", fontSize: 16 }}
+                  className="text-[#5b21b6] font-semibold mt-1 mb-2"
+                >
                   Experience
                 </Text>
-                <Text style={{ fontFamily: 'Poppins-Regular' }} className='my-2'>{currentJob.experience}</Text>
+                <Text
+                  style={{ fontFamily: "Poppins-Regular" }}
+                  className="my-2"
+                >
+                  {currentJob.experience}
+                </Text>
 
                 <View style={{ height: 32 }} />
               </ScrollView>
@@ -556,13 +700,21 @@ export default function JobPostingCard() {
               {/* Footer */}
               <View className="flex-row justify-evenly items-center jpx-3 py-3">
                 <TouchableOpacity className="bg-[#1f6feb] px-4 py-3 rounded-lg items-center">
-                  <Text style={{ fontFamily: 'Lexend-Bold' }} className="text-white">
+                  <Text
+                    style={{ fontFamily: "Lexend-Bold" }}
+                    className="text-white"
+                  >
                     {currentJob.modalMatch}
                   </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={closeSheet} className="flex-row ml-3 py-2 px-2">
-                  <Text className="text-gray-800 font-bold px-2">Tap to view less</Text>
+                <TouchableOpacity
+                  onPress={closeSheet}
+                  className="flex-row ml-3 py-2 px-2"
+                >
+                  <Text className="text-gray-800 font-bold px-2">
+                    Tap to view less
+                  </Text>
                   <Minimize size={20}></Minimize>
                 </TouchableOpacity>
               </View>
