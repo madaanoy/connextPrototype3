@@ -44,7 +44,7 @@ export default function _layout() {
             }}>
          </Tabs.Screen>
 
-         <Tabs.Screen name='messages-screen'
+         <Tabs.Screen name='jobseeker-messages-screen'
             options={{
                title: 'Messages',
                headerShown: false,
