@@ -19,15 +19,19 @@ export interface JobPosting {
 
 interface JobProspectsContextType {
   savedJobs: JobPosting[];
+  appliedJobs: number[]; // Track job IDs that user has applied to
   saveJob: (job: JobPosting) => void;
   removeJob: (jobId: number) => void;
   isJobSaved: (jobId: number) => boolean;
+  applyToJob: (jobId: number) => void;
+  hasAppliedToJob: (jobId: number) => boolean;
 }
 
 const JobProspectsContext = createContext<JobProspectsContextType | undefined>(undefined);
 
 export const JobProspectsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [savedJobs, setSavedJobs] = useState<JobPosting[]>([]);
+  const [appliedJobs, setAppliedJobs] = useState<number[]>([]);
 
   const saveJob = (job: JobPosting) => {
     console.log('=== SAVE JOB DEBUG ===');
@@ -64,6 +68,27 @@ export const JobProspectsProvider: React.FC<{ children: ReactNode }> = ({ childr
     return saved;
   };
 
+  const applyToJob = (jobId: number) => {
+    console.log('Applying to job with ID:', jobId);
+    setAppliedJobs(prevAppliedJobs => {
+      // Check if already applied
+      if (prevAppliedJobs.includes(jobId)) {
+        console.log('Already applied to job:', jobId);
+        return prevAppliedJobs;
+      }
+      
+      const newAppliedJobs = [...prevAppliedJobs, jobId];
+      console.log('Successfully applied to job. Applied jobs:', newAppliedJobs);
+      return newAppliedJobs;
+    });
+  };
+
+  const hasAppliedToJob = (jobId: number) => {
+    const applied = appliedJobs.includes(jobId);
+    console.log(`Job ${jobId} is applied:`, applied);
+    return applied;
+  };
+
   // Debug effect to track savedJobs changes
   React.useEffect(() => {
     console.log('=== SAVED JOBS STATE CHANGED ===');
@@ -71,8 +96,23 @@ export const JobProspectsProvider: React.FC<{ children: ReactNode }> = ({ childr
     console.log('Saved jobs list:', savedJobs.map(job => `${job.company} - ${job.position} (ID: ${job.id})`));
   }, [savedJobs]);
 
+  // Debug effect to track appliedJobs changes
+  React.useEffect(() => {
+    console.log('=== APPLIED JOBS STATE CHANGED ===');
+    console.log('Total applied jobs:', appliedJobs.length);
+    console.log('Applied jobs list:', appliedJobs);
+  }, [appliedJobs]);
+
   return (
-    <JobProspectsContext.Provider value={{ savedJobs, saveJob, removeJob, isJobSaved }}>
+    <JobProspectsContext.Provider value={{ 
+      savedJobs, 
+      appliedJobs,
+      saveJob, 
+      removeJob, 
+      isJobSaved,
+      applyToJob,
+      hasAppliedToJob
+    }}>
       {children}
     </JobProspectsContext.Provider>
   );

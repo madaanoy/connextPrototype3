@@ -221,7 +221,7 @@ export default function JobForm({
               className="text-[#0B3D75] mb-3 text-base font-semibold"
               style={{ fontFamily: "Lexend-SemiBold" }}
             >
-              Technical SKills *
+              Technical Skills *
             </Text>
             <RNTextInput
               value={formData.skills}

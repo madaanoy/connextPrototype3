@@ -113,9 +113,9 @@ export default function RegistrationScreenJS() {
           </View>
 
           <View className='items-center mt-4'>
-            <Text> Already have an account? <Text className='color-[#6C63FF] font-bold' onPress={() => route.push('/LoginScreen')}>
+            <Text className="text-gray-800"> Already have an account? <Text className='text-[#6C63FF] font-bold' onPress={() => route.push('/LoginScreen')}>
                 Login here!
-              </Text>
+            </Text>
             </Text>
           </View>
 

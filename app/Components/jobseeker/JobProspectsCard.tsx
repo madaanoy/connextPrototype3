@@ -7,7 +7,7 @@ import { useUser } from "../../context/UserContext";
 import { useJobs } from "../../context/JobOpeningContext";
 
 export default function JobProspectsCard() {
-  const { savedJobs, removeJob } = useJobProspects();
+  const { savedJobs, removeJob, applyToJob, hasAppliedToJob } = useJobProspects();
   const { user } = useUser();
   const { addApplicant } = useJobs();
 
@@ -82,28 +82,40 @@ export default function JobProspectsCard() {
                   {job.match}
                 </Text>
 
-                <TouchableOpacity
-                  onPress={() => {
-                    if (!user) {
-                      console.log("User not logged in");
-                      return;
-                    }
-                    const applicant = {
-                      id: Date.now().toString(),
-                      name: `${user.firstName} ${user.lastName}`,
-                      email: user.email,
-                      appliedAt: new Date(),
-                    };
-                    addApplicant(job.id.toString(), applicant);
-                  }}
-                >
-                  <Text
-                    style={{ fontFamily: "Lexend-Bold" }}
-                    className="p-2 bg-[#154588] rounded-lg color-white"
+                {hasAppliedToJob(job.id) ? (
+                  <TouchableOpacity disabled={true}>
+                    <Text
+                      style={{ fontFamily: "Lexend-Bold" }}
+                      className="p-2 bg-gray-400 rounded-lg text-white"
+                    >
+                      Already applied to
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => {
+                      if (!user) {
+                        console.log("User not logged in");
+                        return;
+                      }
+                      const applicant = {
+                        id: Date.now().toString(),
+                        name: `${user.firstName} ${user.lastName}`,
+                        email: user.email,
+                        appliedAt: new Date(),
+                      };
+                      addApplicant(job.id.toString(), applicant);
+                      applyToJob(job.id);
+                    }}
                   >
-                    Send Application
-                  </Text>
-                </TouchableOpacity>
+                    <Text
+                      style={{ fontFamily: "Lexend-Bold" }}
+                      className="p-2 bg-[#154588] rounded-lg text-white"
+                    >
+                      Send Application
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </Card.Content>
           </Card>

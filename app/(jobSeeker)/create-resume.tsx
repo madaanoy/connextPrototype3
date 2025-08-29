@@ -39,7 +39,7 @@ export default function CreateResumeScreen() {
           <View className="flex-1 mr-3">
             <Text style={styles.label}>Experience</Text>
             <TextInput
-              placeholder="ex. Custodian at ABC Services"
+              placeholder="e.g Custodian at ABC Services"
               placeholderTextColor="#9AA4AF"
               className="border border-gray-300 px-3 py-3 rounded-lg"
             />
@@ -48,7 +48,7 @@ export default function CreateResumeScreen() {
           <View className="flex-1">
             <Text style={styles.label}>Educational Attainment</Text>
             <TextInput
-              placeholder="Highschool Graduate"
+              placeholder="e.g Highschool Graduate"
               placeholderTextColor="#9AA4AF"
               className="border border-gray-300 px-3 py-3 rounded-lg"
             />
@@ -185,7 +185,7 @@ export default function CreateResumeScreen() {
 
         <TouchableOpacity
           activeOpacity={0.8}
-          className="flex-1 ml-3 items-center py-3 rounded-lg flex-row justify-center bg-[#1572DB]"
+          className="flex-1 ml-3 items-center py-3 rounded-lg flex-row justify-center bg-[#6C63FF]"
           onPress={() => {
             /* handle save */
           }}

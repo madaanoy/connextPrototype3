@@ -103,7 +103,7 @@ export default function LoginScreen() {
         </View>
 
         {/* Register Link */}
-        <Text className="justify-center text-center mt-5">
+        <Text className="justify-center text-center mt-5 text-gray-800">
           Don&apos;t have an account?
           <Link href="/AccountType" className="text-[#6C63FF] font-bold">
             {' '}Register now.
