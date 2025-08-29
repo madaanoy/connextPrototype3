@@ -14,6 +14,8 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ChevronLeft, Info, Smile, AlertTriangle, Star } from 'lucide-react-native';
 
 import LogoAndNotif from '../components/LogoAndNotif';
+import Report from '../components/Report';
+import AddtoFavorites from '../components/AddtoFavorites';
 import companyLogo from '../../assets/images/placeholderImage.png';
 import store from '../data/conversationStore';
 import type { Message } from '../data/conversations';
@@ -27,6 +29,8 @@ export default function ChatScreen() {
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
+  const [reportModalVisible, setReportModalVisible] = useState(false);
+  const [addToFavoritesModalVisible, setAddToFavoritesModalVisible] = useState(false);
 
   // initialize store and subscribe
   useEffect(() => {
@@ -66,6 +70,18 @@ export default function ChatScreen() {
 
     // persist & notify subscribers
     await store.addMessage(conversationId, newMsg);
+  };
+
+  const handleSendReport = (description: string) => {
+    setReportModalVisible(false);
+    // Add logic to send report
+    console.log("Report sent:", description);
+  };
+
+  const handleAddToFavorites = () => {
+    setAddToFavoritesModalVisible(false);
+    // Add logic to add to favorites
+    console.log("Added to favorites");
   };
 
   const renderItem: ListRenderItem<Message> = ({ item }) => (
@@ -121,12 +137,12 @@ export default function ChatScreen() {
 
       {/* Input */}
       <View className="flex-row items-center px-4 py-2 border-t border-gray-200">
-        <TouchableOpacity className="flex-col items-center mr-4">
+        <TouchableOpacity className="flex-col items-center mr-4" onPress={() => setReportModalVisible(true)}>
           <AlertTriangle size={22} color="red" />
           <Text style={{ fontFamily: 'Lexend-Regular' }} className="text-xs text-red-500">Report</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity className="flex-col items-center mr-4">
+        <TouchableOpacity className="flex-col items-center mr-4" onPress={() => setAddToFavoritesModalVisible(true)}>
           <Star size={22} color="#FACC15" />
           <Text style={{ fontFamily: 'Lexend-Regular' }} className="text-xs text-yellow-500">Add to favorites</Text>
         </TouchableOpacity>
@@ -145,6 +161,18 @@ export default function ChatScreen() {
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* Modals */}
+      <Report
+        visible={reportModalVisible}
+        onDismiss={() => setReportModalVisible(false)}
+        onSendReport={handleSendReport}
+      />
+      <AddtoFavorites
+        visible={addToFavoritesModalVisible}
+        onDismiss={() => setAddToFavoritesModalVisible(false)}
+        onAddToFavorites={handleAddToFavorites}
+      />
     </SafeAreaView>
   );
 }

@@ -4,6 +4,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import JobPostingCard from '../../components/jobseeker/JobPostingCard';
 import LogoAndNotif from '../../components/LogoAndNotif';
+import AddtoFavorites from '../../components/AddtoFavorites';
+import Report from '../../components/Report';
+import { LogOut } from 'lucide-react-native';
+import LogoutModal from '../../components/LogoutModal';
+import DeleteAccountModal from '../../components/DeleteAccountModal';
 
 export default function JobSeekerHome() {
   return (

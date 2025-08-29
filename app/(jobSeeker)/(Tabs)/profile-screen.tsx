@@ -12,11 +12,15 @@ import {
   UserRoundX,
 } from "lucide-react-native";
 import LogoAndNotif from "../../components/LogoAndNotif";
+import LogoutModal from "../../components/LogoutModal";
+import DeleteAccountModal from "../../components/DeleteAccountModal";
 import * as DocumentPicker from "expo-document-picker";
 
 export default function ProfileScreen() {
   const router = useRouter();
   const [resumeFile, setResumeFile] = useState<{ name: string; size: number } | null>(null);
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
+  const [deleteAccountModalVisible, setDeleteAccountModalVisible] = useState(false);
 
   const pickDocument = async () => {
     try {
@@ -41,6 +45,17 @@ export default function ProfileScreen() {
     } catch (error) {
       console.error("Error picking document:", error);
     }
+  };
+
+  const handleLogout = () => {
+    setLogoutModalVisible(false);
+    router.push("/LoginScreen");
+  };
+
+  const handleDeleteAccount = () => {
+    setDeleteAccountModalVisible(false);
+    // Add actual delete account logic here
+    console.log("Account deletion requested");
   };
 
 
@@ -233,18 +248,23 @@ export default function ProfileScreen() {
       </View>
 
       <View className="px-2">
-        <View className="flex-row justify-between px-2 py-4">
+        <TouchableOpacity 
+          className="flex-row justify-between items-center px-2 py-4"
+          onPress={() => setLogoutModalVisible(true)}
+        >
           <Text
             style={{ fontFamily: "Lexend-Bold" }}
             className="text-blue-600"
-            onPress={() => router.push("/LoginScreen")}
           >
             Logout
           </Text>
           <LogOutIcon size={20} color={"#1572DB"} />
-        </View>
+        </TouchableOpacity>
 
-        <View className="flex-row justify-between px-2 py-4">
+        <TouchableOpacity 
+          className="flex-row justify-between items-center px-2 py-4"
+          onPress={() => setDeleteAccountModalVisible(true)}
+        >
           <Text
             style={{ fontFamily: "Lexend-Bold" }}
             className="text-red-500"
@@ -252,8 +272,20 @@ export default function ProfileScreen() {
             Delete my account
           </Text>
           <UserRoundX size={20} color={"#B80E0E"} />
-        </View>
+        </TouchableOpacity>
       </View>
+
+      {/* Modals */}
+      <LogoutModal
+        visible={logoutModalVisible}
+        onDismiss={() => setLogoutModalVisible(false)}
+        onLogout={handleLogout}
+      />
+      <DeleteAccountModal
+        visible={deleteAccountModalVisible}
+        onDismiss={() => setDeleteAccountModalVisible(false)}
+        onDeleteAccount={handleDeleteAccount}
+      />
     </SafeAreaView>
   );
 }
