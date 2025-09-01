@@ -38,7 +38,7 @@ export default function ConfirmRegistration() {
             
          </View>
 
-         <ProceedButton href='/LoginScreen' label='I understand' />
+         <ProceedButton href='/loginScreen' label='I understand' />
 
          <Text className='mt-5'> Read our terms and conditions
 

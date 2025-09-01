@@ -34,7 +34,7 @@ export default function RootLayout() {
       <UserProvider>
         <JobProvider>
           <JobProspectsProvider>
-            <Stack initialRouteName="(auth)">
+            <Stack initialRouteName="(common)">
               <Stack.Screen name="(common)" options={{ headerShown: false }} />
               <Stack.Screen name="(auth)" options={{ headerShown: false }} />
               <Stack.Screen name="(jobseeker)" options={{ headerShown: false }} />
