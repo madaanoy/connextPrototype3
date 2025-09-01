@@ -94,6 +94,7 @@ export default function AccountType() {
           </Text>
           <Text
             style={{
+              fontFamily: 'Poppins-Regular',
               color: isActive('jobseeker') ? 'white' : 'black',
               textAlign: 'center',
               fontSize: 14,
@@ -119,6 +120,7 @@ export default function AccountType() {
           </Text>
           <Text
             style={{
+              fontFamily: 'Poppins-Regular',
               color: isActive('employer') ? 'white' : 'black',
               textAlign: 'center',
               fontSize: 14,
