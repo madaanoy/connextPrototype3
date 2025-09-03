@@ -49,7 +49,7 @@ export default function ProfileScreen() {
 
   const handleLogout = () => {
     setLogoutModalVisible(false);
-    router.push("/LoginScreen");
+    router.push("/loginScreen");
   };
 
   const handleDeleteAccount = () => {

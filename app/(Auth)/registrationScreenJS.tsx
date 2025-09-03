@@ -105,7 +105,7 @@ export default function RegistrationScreenJS() {
           {/* Proceed Button */}
           <View className="mt-2">
             <Link
-              href="/LoginScreen"
+              href="/loginScreen"
               className="bg-[#6C63FF] px-6 py-4 rounded-xl w-full"
             >
               <Text className="text-white font-bold text-center">Proceed</Text>
