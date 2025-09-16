@@ -36,9 +36,9 @@ export default function RootLayout() {
           <JobProspectsProvider>
             <Stack initialRouteName="(common)">
               <Stack.Screen name="(common)" options={{ headerShown: false }} />
-              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-              <Stack.Screen name="(jobseeker)" options={{ headerShown: false }} />
-              <Stack.Screen name="(employer)" options={{ headerShown: false }} />
+              <Stack.Screen name="(Auth)" options={{ headerShown: false }} />
+              <Stack.Screen name="(jobSeeker)" options={{ headerShown: false }} />
+              <Stack.Screen name="(Employer)" options={{ headerShown: false }} />
               <Stack.Screen name='chat' options={{ headerShown: false }}></Stack.Screen>
             </Stack>
           </JobProspectsProvider>

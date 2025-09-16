@@ -72,7 +72,7 @@ export default function LoginScreen() {
             <Text className="text-sm text-gray-700 mt-5">Keep me signed in</Text>
           </Pressable>
 
-          <Link href="/forgotpassword">
+          <Link href="/forgotPassword">
             <Text className="text-sm text-[#1572DB] font-semibold">Forgot password?</Text>
           </Link>
         </View>

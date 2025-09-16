@@ -1,8 +1,9 @@
 import React from 'react';
 import {
   Animated, Dimensions, PanResponder, Modal, Pressable,
-  SafeAreaView, ScrollView, TouchableOpacity, View, Text, ViewStyle
+  ScrollView, TouchableOpacity, View, Text, ViewStyle
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Card } from 'react-native-paper';
 import { GraduationCap, MapPin, Expand, Minimize } from 'lucide-react-native';
 

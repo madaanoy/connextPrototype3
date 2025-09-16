@@ -6,8 +6,8 @@ export default function _layout() {
   return (
    <Stack initialRouteName="loginScreen">
       <Stack.Screen name="loginScreen" options={{headerShown: false}}></Stack.Screen>
-      <Stack.Screen name="RegistrationScreenJS" options={{headerShown: false}}></Stack.Screen>
-      <Stack.Screen name="RegistrationScreenEmployer" options={{headerShown: false}}></Stack.Screen>
+      <Stack.Screen name="registrationScreenJS" options={{headerShown: false}}></Stack.Screen>
+      <Stack.Screen name="registrationScreenEmployer" options={{headerShown: false}}></Stack.Screen>
    </Stack>
   )
 }

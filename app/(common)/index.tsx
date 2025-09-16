@@ -26,7 +26,7 @@ export default function OnboardingScreen1() {
 
         <ProceedButton
         label="Let's get started!"
-        href="/OnboardingScreen2"/>
+        href="/onboardingScreen2"/>
 
       </View>
 

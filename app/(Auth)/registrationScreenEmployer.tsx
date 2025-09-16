@@ -136,7 +136,7 @@ export default function RegistrationScreenEmployer() {
 
             {/* Proceed Button */}
             <View className="mt-2">
-              <ProceedButton href="/ConfirmRegistration" label="Proceed" />
+              <ProceedButton href="/confirmRegistration" label="Proceed" />
             </View>
           </View>
 

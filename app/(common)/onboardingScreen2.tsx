@@ -61,7 +61,7 @@ export default function OnboardingScreen2() {
       {/* Proceed Button */}
         <ProceedButton
         label="Let's get started!"
-        href="/AccountType"/>
+        href="/accountType"/>
     </SafeAreaView>
   );
 }

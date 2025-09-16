@@ -134,7 +134,7 @@ export default function AccountType() {
       {/* Dynamic navigation button */}
 
       <Link
-        href={selected === 'jobseeker' ? '/RegistrationScreenJS' : '/RegistrationScreenEmployer'}
+        href={selected === 'jobseeker' ? '/registrationScreenJS' : '/registrationScreenEmployer'}
         className="bg-[#6C63FF] px-10 py-3 my-5 rounded-lg items-center justify-center"
       >
         <Text className="text-white font-bold text-center">Proceed</Text>

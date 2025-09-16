@@ -6,13 +6,13 @@ import {
   PanResponder,
   Modal,
   Pressable,
-  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   View,
   Text,
   ViewStyle,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Card } from "react-native-paper";
 import companyLogo from "../../../assets/images/placeholderImage.png";
 import {
