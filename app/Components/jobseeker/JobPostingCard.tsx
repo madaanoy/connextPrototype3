@@ -52,7 +52,7 @@ const convertToJobProspectsFormat = (
           ? `Up to PHP ${employerJob.salaryMax}/month`
           : "Salary not disclosed";
 
-  // Calculate match percentage based on job details (simple algorithm)
+  // Calculate match percentage based on job details (simple algorithm, not the actual calcuations for job matching)
   const calculateMatch = () => {
     let score = 70; // Base score
     if (employerJob.education) score += 5;
@@ -110,7 +110,7 @@ const convertToJobProspectsFormat = (
   };
 };
 
-// Static job postings (fallback when no employer jobs exist)
+// Static job postings (fallback when no employer jobs exist, for testing only)
 const staticJobPostings = [
   {
     id: 1001,

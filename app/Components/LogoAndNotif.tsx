@@ -93,7 +93,7 @@ export default function LogoAndNotif() {
             </View>
 
             {/* Footer Buttons */}
-            <View className='flex-row p-4 space-x-3'>
+            <View className='flex-row p-4 gap-10'>
               <TouchableOpacity 
                 onPress={handleViewAll}
                 className='flex-1 bg-blue-600 rounded-full py-2 px-4'
