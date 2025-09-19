@@ -1,17 +1,17 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import { Card } from "react-native-paper";
 import React from "react";
 import { useJobProspects } from "../../context/JobProspectsContext";
-import { Trash2 } from "lucide-react-native";
+import { Trash2, BriefcaseBusiness, PhilippinePeso, MapPin } from "lucide-react-native";
 import { useUser } from "../../context/UserContext";
 import { useJobs } from "../../context/JobOpeningContext";
+import companyLogo from "../../../assets/images/placeholderImage.png";
 
 export default function JobProspectsCard() {
   const { savedJobs, removeJob, applyToJob, hasAppliedToJob } = useJobProspects();
   const { user } = useUser();
   const { addApplicant } = useJobs();
 
-  // Add debugging
   React.useEffect(() => {
     console.log("JobProspectsCard - savedJobs count:", savedJobs.length);
     console.log(
@@ -22,18 +22,6 @@ export default function JobProspectsCard() {
 
   return (
     <ScrollView className="px-2 py-2">
-      {/* Debug info 
-      <View className="bg-yellow-100 p-2 mb-2 rounded">
-        <Text style={{fontFamily: 'Poppins-Regular'}} className="text-xs">
-          Debug: {savedJobs.length} saved jobs
-        </Text>
-        {savedJobs.map((job, index) => (
-          <Text key={index} style={{fontFamily: 'Poppins-Regular'}} className="text-xs">
-            {index + 1}. {job.company} - {job.position} (ID: {job.id})
-          </Text>
-        ))}
-      </View> */}
-
       {savedJobs.length === 0 ? (
         <Text
           style={{ fontFamily: "Poppins-Regular" }}
@@ -44,51 +32,83 @@ export default function JobProspectsCard() {
       ) : (
         savedJobs.map((job) => (
           <Card key={`saved-job-${job.id}`} className="my-2">
-            <Card.Content>
-              <View className="flex-row justify-between items-center">
+            <Card.Content className="bg-[#6C63FF] rounded-lg p-4">
+              <View className="flex-row justify-between">
+                <View className="flex-row items-center gap-2">
+                  <Image
+                    source={companyLogo}
+                    className="w-12 h-12 rounded-full"
+                    style={{ resizeMode: "cover" }}
+                  />
+                  <View>
+                    <Text
+                      style={{ fontFamily: "Lexend-Regular" }}
+                      className="text-white text-xs"
+                    >
+                      Posted by:
+                    </Text>
+                    <Text
+                      style={{ fontFamily: "Lexend-Bold" }}
+                      className="text-white text-lg"
+                    >
+                      {job.company}
+                    </Text>
+                  </View>
+                </View>
+                <View>
+                  <Text
+                    style={{ fontFamily: "Lexend-Bold" }}
+                    className="bg-white px-3 py-1 rounded-full text-blue-600 text-xs"
+                  >
+                    {job.match}
+                  </Text>
+                </View>
+              </View>
+
+              <View className="mt-3">
                 <Text
                   style={{ fontFamily: "Lexend-Bold" }}
-                  className="text-xl mb-1"
+                  className="text-white text-xl mb-2"
                 >
-                  {job.company}
+                  {job.position}
                 </Text>
-                <TouchableOpacity onPress={() => removeJob(job.id)}>
-                  <Trash2 size={20} color="#ff4444" />
-                </TouchableOpacity>
+
+                <View className="flex-row items-center gap-2 mb-1">
+                  <PhilippinePeso size={16} color="white" />
+                  <Text
+                    style={{ fontFamily: "Lexend-Bold" }}
+                    className="text-white text-base"
+                  >
+                    {job.salary}
+                  </Text>
+                </View>
+
+                <View className="flex-row items-center gap-2 mb-3">
+                  <MapPin size={16} color="white" />
+                  <Text
+                    style={{ fontFamily: "Lexend-Medium" }}
+                    className="text-white text-base"
+                  >
+                    {job.location}
+                  </Text>
+                </View>
               </View>
-              <Text
-                style={{ fontFamily: "Lexend-Medium" }}
-                className="text-lg text-gray-700 mb-2"
-              >
-                {job.position}
-              </Text>
-              <Text
-                style={{ fontFamily: "Lexend-Regular" }}
-                className="text-gray-600 mb-1"
-              >
-                {job.salary}
-              </Text>
-              <Text
-                style={{ fontFamily: "Lexend-Regular" }}
-                className="text-gray-600 mb-2"
-              >
-                {job.location}
-              </Text>
-              <View className="items-center flex-row justify-between">
+
+              <View className="flex-row justify-between items-center">
                 <Text
                   style={{ fontFamily: "Lexend-Regular" }}
-                  className="text-blue-600"
+                  className="text-white text-sm"
                 >
-                  {job.match}
+                  Posted 1 week ago
                 </Text>
 
                 {hasAppliedToJob(job.id) ? (
-                  <TouchableOpacity disabled={true}>
+                  <TouchableOpacity disabled={true} className="px-4 py-2 rounded-lg bg-gray-400">
                     <Text
                       style={{ fontFamily: "Lexend-Bold" }}
-                      className="p-2 bg-gray-400 rounded-lg text-white"
+                      className="text-white"
                     >
-                      Already applied to
+                      Already applied
                     </Text>
                   </TouchableOpacity>
                 ) : (
@@ -107,12 +127,13 @@ export default function JobProspectsCard() {
                       addApplicant(job.id.toString(), applicant);
                       applyToJob(job.id);
                     }}
+                    className="px-6 py-2 rounded-lg bg-[#154588]"
                   >
                     <Text
                       style={{ fontFamily: "Lexend-Bold" }}
-                      className="p-2 bg-[#154588] rounded-lg text-white"
+                      className="text-white text-center"
                     >
-                      Send Application
+                      Apply
                     </Text>
                   </TouchableOpacity>
                 )}
